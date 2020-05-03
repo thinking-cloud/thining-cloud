@@ -1,0 +1,2 @@
+# core
+thinking cloud core
