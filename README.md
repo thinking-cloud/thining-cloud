@@ -1,2 +1,2 @@
-# core
-thinking cloud core
+# parent
+thinking-cloud-parent
