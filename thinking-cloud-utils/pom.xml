@@ -4,13 +4,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>thinking.cloud</groupId>
 	<artifactId>thinking-cloud-utils</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0-Alpha</version>
 	<name>thinking-cloud-utils</name>
 	
 	<parent>
 		<groupId>thinking.cloud</groupId>
 		<artifactId>thinking-cloud</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0-Alpha</version>
 	</parent>
 
 	<properties>
