@@ -1,2 +1,1 @@
-# parent
-thinking-cloud-parent
+thinking-cloud project
