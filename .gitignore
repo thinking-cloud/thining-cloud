@@ -10,6 +10,6 @@
 .factorypath
 .metadata
 
-/target
-/.settings
-/bin/
+*/target
+*/.settings
+*/bin/
