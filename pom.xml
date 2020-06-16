@@ -86,7 +86,6 @@
 	<!-- modules -->
 	<modules>
 		<module>thinking-cloud-core</module>
-    	<module>thinking-cloud-validation</module>
     	<module>thinking-cloud-utils</module>
   	</modules>
 	
