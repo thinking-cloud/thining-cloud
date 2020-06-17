@@ -47,10 +47,5 @@
 			<groupId>thinking.cloud</groupId>
 			<artifactId>thinking-cloud-utils</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>thinking.cloud</groupId>
-			<artifactId>thinking-cloud-validation</artifactId>
-			<version>${thinking.cloud.version}</version>
-		</dependency>
 	</dependencies>
 </project>

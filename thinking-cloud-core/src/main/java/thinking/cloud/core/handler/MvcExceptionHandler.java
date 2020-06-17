@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import thinking.cloud.core.enums.MESSAGE;
 import thinking.cloud.core.message.Message;
-import thinking.cloud.validation.exception.ValidationFailedException;
 
 /**
  * 过滤异常响应，转为标准json
@@ -33,9 +32,9 @@ public class MvcExceptionHandler {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	@ExceptionHandler(ValidationFailedException.class)
+	@ExceptionHandler(RuntimeException.class)
 	@ResponseBody
-	public Message failed(ValidationFailedException exception){
+	public Message failed(RuntimeException exception){
 		logger.error("thinking-core拦截异常：",exception);
 		return new Message<>(MESSAGE.FAILURE.code(),MESSAGE.FAILURE.name(),exception.getMessage());
 	}
