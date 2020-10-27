@@ -1,8 +1,12 @@
 *.class
-*.war
 *.ear
 *.iml
 *.log
+*.ctxt
+*.jar
+*.war
+*.nar
+*.ear
 
 .classpath
 .project
@@ -14,3 +18,8 @@
 */.settings
 .settings
 */bin/
+*/mtj.tmp/
+mtj.tmp/
+hs_err_pid*
+*/out
+*/gen
