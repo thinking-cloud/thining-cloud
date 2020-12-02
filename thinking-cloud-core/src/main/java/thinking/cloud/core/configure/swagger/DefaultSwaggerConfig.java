@@ -20,23 +20,23 @@ import thinking.cloud.core.exception.UnexpectedExpressionValueException;
 @Configuration
 @EnableSwagger2
 public class DefaultSwaggerConfig {
-	@Value("${swagger.docket.type}")
+	@Value("${swagger.docket.type:api}")
 	private String swaggerDocketType ;
-	@Value("${swagger.base.package}")
+	@Value("${swagger.base.package:thinking.cloud}")
 	private String swaggerBasePackage;
 	
-	@Value("${swagger.api.title}")
+	@Value("${swagger.api.title:thinking cloud}")
 	private String swaggerApiTitle;
-	@Value("${swagger.api.version}")
+	@Value("${swagger.api.version:v1.0.0}")
 	private String swaggerApiVersion;
-	@Value("${swagger.api.description}")
+	@Value("${swagger.api.description:default}")
 	private String swaggerApiDescription;
 	
-	@Value("${swagger.contact.name}")
+	@Value("${swagger.contact.name:thinking-cloud}")
 	private String swaggerContactName;
-	@Value("${swagger.contact.url}")
+	@Value("${swagger.contact.url:''}")
 	private String swaggerContactUrl;
-	@Value("${swagger.contact.email}")
+	@Value("${swagger.contact.email:''}")
 	private String swaggerContactEmail;
 	
 	@Bean

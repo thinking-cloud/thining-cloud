@@ -17,7 +17,11 @@ public abstract class VO<T extends Entity<?>> implements Serializable {
 
 	@SuppressWarnings("unchecked")
 	public <V extends VO<T>> V convert(T source) {
-		this.source=source;
-		return (V)this;
+		if(source != null) { 
+			this.source=source;
+			return (V)this;
+		}else {
+			return null;
+		}
 	}	
 }

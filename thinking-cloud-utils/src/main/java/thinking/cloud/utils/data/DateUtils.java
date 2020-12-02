@@ -32,6 +32,15 @@ public class DateUtils {
 	}
 	
 	/**
+	 * 日期类型 转为 默认格式的字符串
+	 * @param date 日期
+	 * @return 字符串类型的日期格式
+	 */
+	public static String DateFormatString(long time) {
+		return DateFormatString(new Date(time),"yyyy-MM-dd HH:mm:ss");
+	}
+	
+	/**
 	 * 根据指定的字符串格式 转为 日期对象
 	 * @param format 日期格式字符串
 	 * @param pattern 格式字符串

@@ -1,7 +1,5 @@
 package thinking.cloud.utils.data;
 
-import java.util.List;
-
 import com.google.gson.Gson;
 
 /**
@@ -21,6 +19,20 @@ public class GsonUtils {
 		if(object != null) {
 			return gson.toJson(object);
 		}
-		return "null";
+		return null;
+	}
+	
+	/**
+	 * 将json转为指定类型
+	 * @param <T> 指定的目标类型
+	 * @param json json数据
+	 * @param clazz 指定的目标类型字节码
+	 * @return 指定类型的对象
+	 */
+	public static <T> T toObj(String json, Class<T> clazz) {
+		if(json!=null) {
+			return gson.fromJson(json, clazz);
+		}
+		return null;
 	}
 }

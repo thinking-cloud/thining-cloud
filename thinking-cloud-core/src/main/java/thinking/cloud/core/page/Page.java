@@ -8,7 +8,6 @@ import java.util.List;
  * <p>分页对象</p> 
  * @author think
  * @param <T> 实体泛型
- * @param <PK> 主键泛型
  */
 public class Page<T> extends BasePage{
 	/** 本页记录 */

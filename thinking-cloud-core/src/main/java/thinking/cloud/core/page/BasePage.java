@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public abstract class BasePage {
 	// 页码
-	private int pageNo;
+	private int pageNo =1;
 	// 每页显示的条数
-	private int pageSize;
+	private int pageSize =5;
 }
