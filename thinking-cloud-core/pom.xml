@@ -4,14 +4,16 @@
 	xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
+	<groupId>thinking.cloud</groupId>
 	<artifactId>thinking-cloud-core</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>thinking-cloud-core</name>
 	<packaging>jar</packaging>
 
 	<parent>
 		<groupId>thinking.cloud</groupId>
 		<artifactId>thinking-cloud</artifactId>
-		<version>1.0.0-Alpha</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>

@@ -37,8 +37,8 @@ public class ControllerProxy {
 	
 	public final static ThreadLocal<HttpServletRequest> httpRequest = new ThreadLocal<>();
 	public final static ThreadLocal<HttpServletResponse> httpResponse = new ThreadLocal<>();
-	
-	@Pointcut("execution(* *Controller.*(*))")
+
+	@Pointcut("execution(* *..*Controller..*(*))")
 	private void  proxy(){
 		
 	}

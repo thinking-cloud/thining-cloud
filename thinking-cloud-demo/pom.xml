@@ -7,7 +7,7 @@
 	<parent>
     	<groupId>thinking.cloud</groupId>
     	<artifactId>thinking-cloud</artifactId>
-		<version>1.0.0-Alpha</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<dependencies>
 	
