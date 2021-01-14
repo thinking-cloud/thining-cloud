@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import lombok.extern.slf4j.Slf4j;
@@ -72,7 +74,7 @@ public class RestUtils {
 	 * @param e 异常信息
 	 * @return 响应对象
 	 */
-	public <R> RespData<R> errorResp2RespData(HttpClientErrorException e){
+	public <R> RespData<R> errorResp2RespData(HttpStatusCodeException e){
 		RespData<R> respData = new RespData<>();
 		HttpStatus statusCode = e.getStatusCode();
 		String body = e.getResponseBodyAsString();
@@ -97,6 +99,8 @@ public class RestUtils {
 			ResponseEntity<R> responseEntity = restTemplate.exchange(url, method, requestEntity, responseType);
 			respData = successResp2RespData(responseEntity, responseType);
 		}catch (HttpClientErrorException e) {
+			respData = errorResp2RespData(e);
+		} catch (HttpServerErrorException e) {
 			respData = errorResp2RespData(e);
 		}catch (Exception e) {
 			e.printStackTrace();

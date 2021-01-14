@@ -2,7 +2,7 @@ package thinking.cloud.core.mapper.simple;
 
 import java.io.Serializable;
 
-import thinking.cloud.core.entity.Entity;
+import thinking.cloud.api.entity.Entity;
 import thinking.cloud.core.mapper.Mapper;
 /**
  * 修改数据的接口

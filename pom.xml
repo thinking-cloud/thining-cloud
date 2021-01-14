@@ -36,6 +36,16 @@
 				<artifactId>thinking-cloud-utils</artifactId>
 				<version>${thinking.cloud.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>thinking.cloud</groupId>
+				<artifactId>thinking-cloud-rest</artifactId>
+				<version>${thinking.cloud.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>thinking.cloud</groupId>
+				<artifactId>thinking-cloud-api</artifactId>
+				<version>${thinking.cloud.version}</version>
+			</dependency>
 			<!-- Spring jar -->
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
@@ -117,7 +127,8 @@
 		<module>thinking-cloud-utils</module>
     <module>thinking-cloud-demo</module>
     <module>thinking-cloud-rest</module>
-  </modules>
+		<module>thinking-cloud-api</module>
+	</modules>
 
 	<build>
 		<plugins>

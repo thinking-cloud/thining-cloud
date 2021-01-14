@@ -3,7 +3,7 @@ package thinking.cloud.core.service;
 import java.io.Serializable;
 import java.util.List;
 
-import thinking.cloud.core.entity.Entity;
+import thinking.cloud.api.entity.Entity;
 import thinking.cloud.core.mapper.Mapper;
 import thinking.cloud.core.mapper.batch.BatchDeleteMapper;
 import thinking.cloud.core.mapper.batch.BatchInsertMapper;
@@ -14,7 +14,8 @@ import thinking.cloud.core.mapper.simple.InsertMapper;
 import thinking.cloud.core.mapper.simple.PageMapper;
 import thinking.cloud.core.mapper.simple.SelectMapper;
 import thinking.cloud.core.mapper.simple.UpdateMapper;
-import thinking.cloud.core.page.Limit;
+import thinking.cloud.api.page.Limit;
+import thinking.cloud.api.page.Page;
 
 
 /**
@@ -23,7 +24,7 @@ import thinking.cloud.core.page.Limit;
  * @param <T> 实体泛型
  * @param <PK> 主键泛型
  */
-public abstract class DbService<T extends Entity<PK>, PK extends Serializable> implements BaseService   {
+public abstract class DbService<T extends Entity<PK>, PK extends Serializable>  {
 	
 	/**
 	 * 获取mapper接口的实现类
@@ -75,7 +76,7 @@ public abstract class DbService<T extends Entity<PK>, PK extends Serializable> i
 	
 	/**
 	 * 删除
-	 * @param Entity 保存的实体
+	 * @param pk 删除的主键
 	 * @return 影响行数
 	 */
 	public int delete(PK pk){
@@ -162,15 +163,14 @@ public abstract class DbService<T extends Entity<PK>, PK extends Serializable> i
 	
 	/**
 	 * 分页查询
-	 * @param Entity 查询条件
-	 * @param exam 查询条件
+	 * @param limit 查询件
 	 * @return 分页对象
 	 */
-	public List<T> queryPage(Limit<T> limit){
+	public Page<T> queryPage(Limit limit){
 		if(getBaseMapper() instanceof PageMapper<?, ?>){
 			try {
-				List<T> list = ((PageMapper<T, PK>)getBaseMapper()).queryPage(limit);
-				return list;
+				Page<T> page = ((PageMapper<T, PK>)getBaseMapper()).queryPage(limit);
+				return page;
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
@@ -181,13 +181,13 @@ public abstract class DbService<T extends Entity<PK>, PK extends Serializable> i
 	
 	/**
 	 * 查询总数
-	 * @param condition 查询条件
+	 * @param limit 查询条件
 	 * @return 总数
 	 */
-	public Long count(T condition){
+	public Long count(Limit limit){
 		if(getBaseMapper() instanceof CountMapper<?, ?>){
 			try {
-				Long count = ((CountMapper<T, PK>)getBaseMapper()).count(condition);
+				Long count = ((CountMapper<T, PK>)getBaseMapper()).count(limit);
 				return count;
 			} catch (Exception e) {
 				throw new RuntimeException(e);

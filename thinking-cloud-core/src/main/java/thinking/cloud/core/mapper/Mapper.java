@@ -3,7 +3,7 @@ package thinking.cloud.core.mapper;
 
 import java.io.Serializable;
 
-import thinking.cloud.core.entity.Entity;
+import thinking.cloud.api.entity.Entity;
 
 /**
  * 所有mapper接口的基类

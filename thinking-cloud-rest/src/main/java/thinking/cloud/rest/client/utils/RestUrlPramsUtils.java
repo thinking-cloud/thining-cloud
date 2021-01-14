@@ -4,10 +4,11 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import org.springframework.cglib.core.ReflectUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-
-import thinking.cloud.utils.reflect.ReflectUtils;
+import thinking.cloud.utils.reflect.ReflectBeanUtils;
+import thinking.cloud.utils.reflect.ReflectClassMetaUtils;
 
 /**
  * 
@@ -33,7 +34,7 @@ public class RestUrlPramsUtils {
 			return params;
 		try {
 			// 获取所有属性列表
-			List<Field> fields = ReflectUtils.fields(obj.getClass(), true, exculdeFieldNames);
+			List<Field> fields = ReflectClassMetaUtils.fields(obj.getClass(), true, exculdeFieldNames);
 			if (fields != null) {
 				params = new LinkedMultiValueMap<>();
 				for (Field field : fields) {
@@ -71,7 +72,7 @@ public class RestUrlPramsUtils {
 			return urlParams.toString();
 		try {
 			// 获取所有属性列表
-			List<Field> fields = ReflectUtils.fields(obj.getClass(), true, exculdeFieldNames);
+			List<Field> fields = ReflectClassMetaUtils.fields(obj.getClass(), true, exculdeFieldNames);
 			if (fields != null) {
 				for (Field field : fields) {
 					String name = field.getName();
@@ -120,7 +121,7 @@ public class RestUrlPramsUtils {
 				v = null;
 				method = null;
 				for (String name : split) {
-					method = m.getClass().getMethod(ReflectUtils.fieldName2MethodName("get", name));
+					method = m.getClass().getMethod(ReflectBeanUtils.fieldName2MethodName("get", name));
 					v = method.invoke(m);
 					if (v instanceof String || v instanceof Integer || v instanceof Boolean || v instanceof Long
 							|| v instanceof Double || v instanceof Character || v instanceof Byte || v instanceof Short

@@ -33,7 +33,7 @@ public class DateUtils {
 	
 	/**
 	 * 日期类型 转为 默认格式的字符串
-	 * @param date 日期
+	 * @param time 时间戳
 	 * @return 字符串类型的日期格式
 	 */
 	public static String DateFormatString(long time) {

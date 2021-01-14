@@ -14,7 +14,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.ApiSelectorBuilder;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-import thinking.cloud.core.constant.Constants;
+import thinking.cloud.api.constant.Constants;
 import thinking.cloud.core.exception.UnexpectedExpressionValueException;
 
 @Configuration
@@ -52,7 +52,6 @@ public class DefaultSwaggerConfig {
 			default:
 				throw new UnexpectedExpressionValueException(swaggerDocketType);
 		}
-		System.out.println(swaggerApiTitle);
 		return select.paths(PathSelectors.any()).build();
 	}
 	

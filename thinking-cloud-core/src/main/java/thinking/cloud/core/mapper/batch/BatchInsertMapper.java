@@ -3,7 +3,7 @@ package thinking.cloud.core.mapper.batch;
 import java.io.Serializable;
 import java.util.List;
 
-import thinking.cloud.core.entity.Entity;
+import thinking.cloud.api.entity.Entity;
 import thinking.cloud.core.mapper.Mapper;
 
 /**

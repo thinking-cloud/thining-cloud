@@ -1,13 +1,14 @@
 
 package thinking.cloud.core.convert;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.core.convert.converter.Converter;
 
-import thinking.cloud.core.entity.Entity;
-import thinking.cloud.core.vo.VO;
+import thinking.cloud.api.entity.Entity;
+import thinking.cloud.api.vo.VO;
 
 /**
  * 
@@ -17,7 +18,7 @@ import thinking.cloud.core.vo.VO;
  * @param <T> 源类型
  * @param <V> VO类型
  */
-public class EntityToVoConvert<T extends Entity<?>,V extends VO<T>> implements Converter<T, V> {
+public class EntityToVoConvert<T ,V extends VO<T>> implements Converter<T, V> {
 	
 	private Class<V> voClass;
 	public EntityToVoConvert(Class<V> voClass) {

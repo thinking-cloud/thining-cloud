@@ -58,13 +58,14 @@ import springfox.documentation.spring.web.readers.parameter.ExpansionContext;
 import springfox.documentation.spring.web.readers.parameter.ModelAttributeField;
 import springfox.documentation.spring.web.readers.parameter.ModelAttributeParameterExpander;
 import springfox.documentation.spring.web.readers.parameter.ModelAttributeParameterMetadataAccessor;
+import thinking.cloud.api.annotation.IgnoreSwaggerParameter;
+import thinking.cloud.utils.reflect.ReflectBeanUtils;
+import thinking.cloud.utils.reflect.ReflectClassMetaUtils;
 
 /**
  * 覆盖{@link ModelAttributeParameterExpander}
  *
- * @see CustomizeModelAttributeParameterExpander#getBeanPropertyNames(Class)
- * @see ModelAttributeParameterExpander#getBeanPropertyNames(Class)
- * @see IgnoreSwaggerParameter
+ * @see ModelAttributeParameterExpander
  */
 @Component
 @Primary
@@ -357,13 +358,19 @@ public class CustomizeModelAttributeParameterExpander extends ModelAttributePara
             for (PropertyDescriptor descriptor : descriptors) {
                 Field field = null;
                 try {
-                    field = clazz.getDeclaredField(descriptor.getName());
+                    field = ReflectClassMetaUtils.fields(clazz,true, descriptor.getName());
                 } catch (Exception e) {
                     LOG.debug(String.format("Failed to get bean properties on (%s)", clazz), e);
                 }
                 if (field != null) {
                     field.setAccessible(true);
                     IgnoreSwaggerParameter ignoreSwaggerParameter = field.getDeclaredAnnotation(IgnoreSwaggerParameter.class);
+                    if (ignoreSwaggerParameter != null) {
+                        continue;
+                }
+                    String methodName = ReflectBeanUtils.fieldName2MethodName("get",descriptor.getName());
+                    Method declaredMethod = clazz.getMethod(methodName);
+                    ignoreSwaggerParameter = declaredMethod.getDeclaredAnnotation(IgnoreSwaggerParameter.class);
                     if (ignoreSwaggerParameter != null) {
                         continue;
                     }

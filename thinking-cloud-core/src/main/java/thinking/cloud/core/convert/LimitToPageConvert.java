@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.springframework.core.convert.converter.Converter;
 
-import thinking.cloud.core.entity.Entity;
-import thinking.cloud.core.page.Limit;
-import thinking.cloud.core.page.Page;
-import thinking.cloud.core.vo.VO;
+import thinking.cloud.api.entity.Entity;
+import thinking.cloud.api.page.Limit;
+import thinking.cloud.api.page.Page;
+import thinking.cloud.api.vo.VO;
 
 /**
  * limit对象转为page对象
@@ -17,7 +17,7 @@ import thinking.cloud.core.vo.VO;
  * @param <T> Entity泛型
  * @param <V> vo泛型
  */
-public class LimitToPageConvert<T extends Entity<?>,V extends VO<T>> implements Converter<T, V> {
+public class LimitToPageConvert<T,V extends VO<T>> implements Converter<T, V> {
 
 	private EntityToVoConvert<T, V> EntityToVoConvert;
 	public LimitToPageConvert(Class<V> voClass) {
@@ -35,7 +35,7 @@ public class LimitToPageConvert<T extends Entity<?>,V extends VO<T>> implements 
 	 * @param list 查询结果
 	 * @return page对象
 	 */
-	public Page<V> limitToPage(Limit<T> limit,List<T> list){
+	public Page<V> limitToPage(Limit limit,List<T> list){
 		Page<V> page = new Page<>();
 		page.setPageNo(limit.getPageNo());
 		page.setPageSize(limit.getPageSize());

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import thinking.cloud.core.entity.Entity;
+import thinking.cloud.api.entity.Entity;
 import thinking.cloud.core.mapper.Mapper;
 /**
  * 根据条件批量修改数据接口

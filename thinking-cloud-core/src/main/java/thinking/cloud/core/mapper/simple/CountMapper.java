@@ -8,7 +8,8 @@ package thinking.cloud.core.mapper.simple;
 
 import java.io.Serializable;
 
-import thinking.cloud.core.entity.Entity;
+import thinking.cloud.api.entity.Entity;
+import thinking.cloud.api.page.Limit;
 import thinking.cloud.core.mapper.Mapper;
 
 /**
@@ -22,9 +23,9 @@ import thinking.cloud.core.mapper.Mapper;
 public interface CountMapper <T extends Entity<PK>,PK extends Serializable> extends Mapper<T, PK>{
 	/**
 	 * 查询总数
-	 * @param Entity 查询条件
+	 * @param limit 查询条件
 	 * @return 总数
 	 * @throws Exception SQK异常
 	 */
-	public Long count(T Entity) ;
+	public Long count(Limit limit);
 }

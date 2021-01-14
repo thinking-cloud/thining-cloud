@@ -1,41 +1,87 @@
 package thinking.cloud.core.handler;
 
-import org.slf4j.Logger;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import thinking.cloud.core.enums.MESSAGE;
-import thinking.cloud.core.message.Message;
+import thinking.cloud.api.exception.ValidFailedException;
+import thinking.cloud.api.message.Message;
 
 /**
  * 过滤异常响应，转为标准json
  * @author think
  */
 @ControllerAdvice
+@Slf4j
 public class MvcExceptionHandler {
-	private Logger logger = org.slf4j.LoggerFactory.getLogger(MvcExceptionHandler.class);
 	/**
 	 * 异常处理
-	 * @return 
+	 * @return 响应对象
 	 */
 	@SuppressWarnings("rawtypes")
-	@ExceptionHandler(Exception.class)
+	@ExceptionHandler(Throwable.class)
 	@ResponseBody
 	public Message error(Throwable throwable){
-		logger.error("thinking-core拦截异常：",throwable);
-		return new Message<>(MESSAGE.ERROR.code(),MESSAGE.ERROR.name(),throwable.getMessage());
+		log.error("thinking-core拦截异常：",throwable);
+		return Message.error(throwable);
 	}
-	
+
 	/**
 	 * 验证失败异常处理
+	 * @return 响应对象
+	 */
+	@ExceptionHandler(ValidFailedException.class)
+	@ResponseBody
+	public Message failed(ValidFailedException exception){
+		log.error("验证失败："+exception.getMessage());
+		return Message.failure(exception.getMessage());
+	}
+
+	/**
+	 * validate 验证失败处理
+	 * @param e
 	 * @return
 	 */
-	@SuppressWarnings("rawtypes")
-	@ExceptionHandler(RuntimeException.class)
+	@ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
 	@ResponseBody
-	public Message failed(RuntimeException exception){
-		logger.error("thinking-core拦截异常：",exception);
-		return new Message<>(MESSAGE.FAILURE.code(),MESSAGE.FAILURE.name(),exception.getMessage());
+	public Message failed(Exception e){
+		StringBuilder errorInfo = new StringBuilder();
+		BindingResult bindingResult=null;
+		if(e instanceof MethodArgumentNotValidException){
+			bindingResult= ((MethodArgumentNotValidException)e).getBindingResult();
+		}
+		if(e instanceof BindException){
+			bindingResult= ((BindException)e).getBindingResult();
+		}
+		for(int i = 0; i < bindingResult.getFieldErrors().size(); i++){
+			if(i > 0){
+				errorInfo.append(",");
+			}
+			FieldError fieldError = bindingResult.getFieldErrors().get(i);
+			errorInfo.append(fieldError.getDefaultMessage());
+		}
+		log.error("验证失败："+errorInfo.toString());
+		return Message.failure(errorInfo.toString());
 	}
+
+	/**
+	 *
+	 */
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	@ResponseBody
+	public Message failed(HttpMessageNotReadableException exception){
+		if(exception.getMessage().indexOf("JSON parse error: Unexpected character")>=0) {
+			log.error("thinking-core拦截异常：请求json格式有误");
+			return Message.failure("请求json格式有误");
+		}else{
+			log.error("thinking-core拦截异常：{0}",exception.getMessage());
+			return Message.failure(exception.getMessage());
+		}
+	}
+
 }
