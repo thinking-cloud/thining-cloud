@@ -20,7 +20,7 @@ public interface RestDownloadFile {
 	
 	/**
 	 * 设置文件路径,不包含文件名
-	 * @param path 文件所在路径
+	 * @param filePath 文件所在路径
 	 */
 	default void setFilePath(String filePath) {
 		throw new RuntimeException("RestDownloadFile.filePath 未定义");

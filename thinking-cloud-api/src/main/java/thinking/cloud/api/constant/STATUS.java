@@ -1,21 +1,24 @@
 package thinking.cloud.api.constant;
 
-import thinking.cloud.core.exception.CodeNotFoundException;
+import thinking.cloud.api.exception.CodeNotFoundException;
 
 public enum STATUS {
-	ENABLE("00"),
-	DISABLE("01"),
-	DELETE("02");
-	
+	FALSE("00"),
+	TRUE("01"),
+	ENABLE("02"),
+	DISABLE("03"),
+	DELETE("04");
+
+
 	private String code;
 	private STATUS(String code) {
 		this.code = code;
 	}
-	
+
 	public String code() {
 		return this.code;
 	}
-	
+
 	/**
 	 * 将code直 转为 STATUS
 	 * @param code
@@ -23,17 +26,21 @@ public enum STATUS {
 	 */
 	public static STATUS codeOf(String code) {
 		if(code == null) {
-			throw new NullPointerException("code cannot be null");
+			throw new NullPointerException("code为null");
 		}
 		switch (code) {
 			case "00":
-				return STATUS.ENABLE;
+				return STATUS.FALSE;
 			case "01":
-				return STATUS.DISABLE;
+				return STATUS.TRUE;
 			case "02":
+				return STATUS.ENABLE;
+			case "03":
+				return STATUS.DISABLE;
+			case "04":
 				return STATUS.DELETE;
 			default:
-				throw new CodeNotFoundException(code + " is not in the range of STATUS");
+				throw new CodeNotFoundException(code + " 不是STATUS的实例");
 		}
 	}
 }

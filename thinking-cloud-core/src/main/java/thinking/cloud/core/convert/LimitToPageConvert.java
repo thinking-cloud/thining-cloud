@@ -19,14 +19,14 @@ import thinking.cloud.api.vo.VO;
  */
 public class LimitToPageConvert<T,V extends VO<T>> implements Converter<T, V> {
 
-	private EntityToVoConvert<T, V> EntityToVoConvert;
+	protected EntityToVoConvert<T, V> entityToVoConvert;
 	public LimitToPageConvert(Class<V> voClass) {
-		this.EntityToVoConvert = new EntityToVoConvert<>(voClass);
+		this.entityToVoConvert = new EntityToVoConvert<>(voClass);
 	}
 	
 	@Override
 	public V convert(T source) {
-		return this.EntityToVoConvert.convert(source);
+		return this.entityToVoConvert.convert(source);
 	}
 	
 	/**
@@ -39,7 +39,7 @@ public class LimitToPageConvert<T,V extends VO<T>> implements Converter<T, V> {
 		Page<V> page = new Page<>();
 		page.setPageNo(limit.getPageNo());
 		page.setPageSize(limit.getPageSize());
-		page.setRecords(this.EntityToVoConvert.convert(list));
+		page.setRecords(this.entityToVoConvert.convert(list));
 		return page;
 	}
 

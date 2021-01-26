@@ -1,4 +1,4 @@
-package thinking.cloud.core.exception;
+package thinking.cloud.api.exception;
 
 /**
  * 字符串类型的code码转为enum对象时，若没有与code码对应的enum对象时，则抛出此异常

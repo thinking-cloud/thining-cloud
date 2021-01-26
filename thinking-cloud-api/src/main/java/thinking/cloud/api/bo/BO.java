@@ -8,10 +8,10 @@ import java.io.Serializable;
  * @date 2021/1/4 15:31
  */
 public interface BO extends Serializable {
-    public static interface insert{}
-    public static interface delete{}
-    public static interface update{}
-    public static interface page{}
-    public static interface select{}
+    public static interface Insert{}
+    public static interface Delete{}
+    public static interface Update{}
+    public static interface Page{}
+    public static interface Select{}
 
 }

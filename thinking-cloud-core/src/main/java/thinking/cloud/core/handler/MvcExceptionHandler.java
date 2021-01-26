@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import thinking.cloud.api.exception.ValidFailedException;
 import thinking.cloud.api.message.Message;
+import thinking.cloud.utils.exception.DateFormatException;
+
+import java.text.ParseException;
 
 /**
  * 过滤异常响应，转为标准json
@@ -70,7 +73,7 @@ public class MvcExceptionHandler {
 	}
 
 	/**
-	 *
+	 * 解析json异常处理
 	 */
 	@ExceptionHandler(HttpMessageNotReadableException.class)
 	@ResponseBody
@@ -83,5 +86,6 @@ public class MvcExceptionHandler {
 			return Message.failure(exception.getMessage());
 		}
 	}
+
 
 }

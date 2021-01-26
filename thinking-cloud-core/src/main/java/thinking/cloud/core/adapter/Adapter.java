@@ -1,4 +1,4 @@
-package thinking.cloud.api.annotation;
+package thinking.cloud.core.adapter;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -18,5 +18,5 @@ import org.springframework.stereotype.Component;
 @Documented
 @Component
 public @interface Adapter {
-
+    
 }
