@@ -27,13 +27,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class ControllerProxy {
 	@Autowired(required = false)
-	private List<thinking.cloud.api.controller.proxy.ControllerBefore> beforeList;
+	private List<ControllerBefore> beforeList;
 	@Autowired(required = false)
-	private List<thinking.cloud.api.controller.proxy.ControllerAfter> afterList;
+	private List<
+ControllerAfter> afterList;
 	@Autowired(required = false)
-	private List<thinking.cloud.api.controller.proxy.ControllerAfterReturning> afterRuturningList;
+	private List<
+ControllerAfterReturning> afterRuturningList;
 	@Autowired(required = false)
-	private List<thinking.cloud.api.controller.proxy.ControllerAfterThrowing> afterThrowList;
+	private List<
+ControllerAfterThrowing> afterThrowList;
 	
 	public final static ThreadLocal<HttpServletRequest> httpRequest = new ThreadLocal<>();
 	public final static ThreadLocal<HttpServletResponse> httpResponse = new ThreadLocal<>();
@@ -46,7 +49,8 @@ public class ControllerProxy {
 	@Before("proxy()")
 	public void before(JoinPoint point) {
 		if(beforeList != null && beforeList.size()>0) {
-			for (thinking.cloud.api.controller.proxy.ControllerBefore before : beforeList) {
+			for (
+ControllerBefore before : beforeList) {
 				before.handler(httpRequest.get(), httpResponse.get(), point);
 			}
 		}
@@ -56,7 +60,8 @@ public class ControllerProxy {
 	@AfterReturning(value = "proxy()", returning = "returnVal")
 	public void afterRuturning(JoinPoint point, Object returnVal) {
 		if(afterRuturningList != null && afterRuturningList.size()>0) {
-			for (thinking.cloud.api.controller.proxy.ControllerAfterReturning runtuning : afterRuturningList) {
+			for (
+ControllerAfterReturning runtuning : afterRuturningList) {
 				runtuning.handler(httpRequest.get(), httpResponse.get(), point,returnVal);
 			}
 		}
@@ -64,7 +69,8 @@ public class ControllerProxy {
 	@AfterThrowing(value="proxy()", throwing = "throwable")
 	public void afterThrow(JoinPoint point,Throwable throwable) {
 		if(afterThrowList != null && afterThrowList.size()>0) {
-			for (thinking.cloud.api.controller.proxy.ControllerAfterThrowing throwing : afterThrowList) {
+			for (
+ControllerAfterThrowing throwing : afterThrowList) {
 				throwing.handler(httpRequest.get(), httpResponse.get(), point, throwable);
 			}
 		}
@@ -73,7 +79,8 @@ public class ControllerProxy {
 	@After("proxy()")
 	public void after(JoinPoint point) {
 		if(afterList != null && afterList.size()>0) {
-			for (thinking.cloud.api.controller.proxy.ControllerAfter after : afterList) {
+			for (
+ControllerAfter after : afterList) {
 				after.handler(httpRequest.get(), httpResponse.get(), point);
 			}
 		}

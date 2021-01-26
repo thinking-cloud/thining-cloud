@@ -1,4 +1,4 @@
-package thinking.cloud.api.controller.proxy;
+package thinking.cloud.core.proxy.controller;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
