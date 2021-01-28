@@ -4,6 +4,7 @@ package thinking.cloud.api.page;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -47,7 +48,7 @@ public class Page<T> {
 		if(records == null){
 			synchronized (Page.class){
 				if(records == null){
-					records = new ArrayList<>();
+					records = new LinkedList<>();
 				}
 			}
 		}

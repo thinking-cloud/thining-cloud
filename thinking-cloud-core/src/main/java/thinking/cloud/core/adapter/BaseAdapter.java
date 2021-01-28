@@ -1,11 +1,13 @@
 package thinking.cloud.core.adapter;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 
 import thinking.cloud.core.convert.EntityToVoConvert;
 import thinking.cloud.core.convert.LimitToPageConvert;
 import thinking.cloud.api.entity.Entity;
 import thinking.cloud.api.vo.VO;
+import thinking.cloud.utils.reflect.ReflectClassMetaUtils;
 
 /**
  * adapter层的基类
@@ -17,14 +19,16 @@ public class BaseAdapter<T extends Serializable, V extends VO<T>> {
 	/**
 	 * 创建默认 实体类转VO类的Convert
 	 */
-	protected  EntityToVoConvert<T,V> entityConvert(Class<V> voClass){
-	    return new EntityToVoConvert<>(voClass);
+	protected  EntityToVoConvert<T,V> entityConvert(){
+		Type[] types = ReflectClassMetaUtils.genericBySuperClass(this);
+		return new EntityToVoConvert<T, V>((Class)types[1]);
     }
 
 	/**
 	 * 创建默认 Limit类转page类的Convert
 	 */
-    protected  LimitToPageConvert<T,V> limitConvert(Class<V> voClass){
-		return new LimitToPageConvert<>(voClass);
+    protected  LimitToPageConvert<T,V> limitConvert(){
+		Type[] types = ReflectClassMetaUtils.genericBySuperClass(this);
+    	return new LimitToPageConvert<>((Class)types[1]);
 	}
 }

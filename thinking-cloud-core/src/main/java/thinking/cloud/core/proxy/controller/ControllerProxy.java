@@ -29,14 +29,11 @@ public class ControllerProxy {
 	@Autowired(required = false)
 	private List<ControllerBefore> beforeList;
 	@Autowired(required = false)
-	private List<
-ControllerAfter> afterList;
+	private List<ControllerAfter> afterList;
 	@Autowired(required = false)
-	private List<
-ControllerAfterReturning> afterRuturningList;
+	private List<ControllerAfterReturning> afterRuturningList;
 	@Autowired(required = false)
-	private List<
-ControllerAfterThrowing> afterThrowList;
+	private List<ControllerAfterThrowing> afterThrowList;
 	
 	public final static ThreadLocal<HttpServletRequest> httpRequest = new ThreadLocal<>();
 	public final static ThreadLocal<HttpServletResponse> httpResponse = new ThreadLocal<>();
