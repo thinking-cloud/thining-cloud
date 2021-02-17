@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * 分页对象
  * <p>分页对象</p> 
@@ -14,15 +16,16 @@ import java.util.List;
  * @param <T> 实体泛型
  */
 @Data
-public class Page<T> {
+public class Page<T> implements BaseLimit {
+	private static final long serialVersionUID = 2480254472609326980L;
 	/** 当前页码 */
-	private int pageNo;
+	private Integer pageNo;
 	/** 每页显示的条数 */
-	private int pageSize;
+	private Integer pageSize;
 	/** 本页记录 */
 	private List<T> records;
 	/** 总记录数 */
-	private long totalRecords;
+	private Long totalRecord;
 
 	/**
 	 * 设置页码
@@ -46,7 +49,7 @@ public class Page<T> {
 	 */
 	public List<T> getRecords() {
 		if(records == null){
-			synchronized (Page.class){
+			synchronized (this){
 				if(records == null){
 					records = new LinkedList<>();
 				}
@@ -66,24 +69,37 @@ public class Page<T> {
 	 * 获取记录总数
 	 * @return
 	 */
-	public long getTotalRecords() {
-		return totalRecords;
+	@ApiModelProperty(value="总记录数",example = "0")
+	public long getTotalRecord() {
+		return totalRecord;
 	}
 
 	/**
 	 * 设置记录总数
-	 * @param totalRecords
+	 * @param totalRecord
 	 */
-	public void setTotalRecords(long totalRecords) {
-		this.totalRecords = totalRecords<=0 ? 0 : totalRecords;
+	public void setTotalRecord(long totalRecord) {
+		this.totalRecord = totalRecord<=0 ? 0 : totalRecord;
 	}
 
 	/**
 	 * 获取总页数
 	 * @return
 	 */
+	@ApiModelProperty(value="总页数",example = "0")
 	public Long getTotalPage() {
-		return (getTotalRecords() + getPageSize() -1) /  getPageSize();
+		return (getTotalRecord() + getPageSize() -1) /  getPageSize();
 	}
+	
+	@ApiModelProperty(value="当前页码",example = "0")
+	public Integer getPageNo() {
+		return pageNo;
+	}
+	
+	@ApiModelProperty(value="每页显示条数",example = "0")
+	public Integer getPageSize() {
+		return pageSize;
+	}
+	
 }
 

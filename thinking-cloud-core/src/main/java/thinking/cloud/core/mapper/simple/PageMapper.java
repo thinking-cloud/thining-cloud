@@ -1,6 +1,7 @@
 package thinking.cloud.core.mapper.simple;
 
 import java.io.Serializable;
+import java.util.List;
 
 import thinking.cloud.api.entity.Entity;
 import thinking.cloud.core.mapper.Mapper;
@@ -21,6 +22,6 @@ public interface PageMapper <T extends Entity<PK>, PK extends Serializable> exte
 	 * @return 分页数据
 	 * @throws Exception SQL异常
 	 */
-	public Page<T> queryPage(Limit Entity);
+	public List<T> queryPage(Limit Entity);
 	
 }

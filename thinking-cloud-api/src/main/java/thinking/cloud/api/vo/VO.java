@@ -1,7 +1,5 @@
 package thinking.cloud.api.vo;
 
-import thinking.cloud.api.entity.Entity;
-
 import java.io.Serializable;
 
 /**
@@ -16,7 +14,7 @@ public abstract class VO<T> implements Serializable {
 	protected T source;
 
 	@SuppressWarnings("unchecked")
-	public <V extends VO> V convert(T source) {
+	public <V extends VO<T>> V convert(T source) {
 		if(source != null) { 
 			this.source=source;
 			return (V)this;

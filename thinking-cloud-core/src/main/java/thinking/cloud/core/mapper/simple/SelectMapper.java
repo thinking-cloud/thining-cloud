@@ -19,6 +19,6 @@ public interface SelectMapper<T extends Entity<PK>,PK extends Serializable> exte
 	 * @param pk 主键
 	 * @return 查询到的对象
 	 */
-	public T select(PK pk);
+	public T select(PK id);
 }
 

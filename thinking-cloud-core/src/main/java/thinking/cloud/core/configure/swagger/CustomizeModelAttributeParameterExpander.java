@@ -42,6 +42,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 
 import springfox.documentation.builders.ParameterBuilder;
@@ -60,7 +61,7 @@ import springfox.documentation.spring.web.readers.parameter.ModelAttributeParame
 import springfox.documentation.spring.web.readers.parameter.ModelAttributeParameterMetadataAccessor;
 import thinking.cloud.api.annotation.IgnoreSwaggerParameter;
 import thinking.cloud.utils.reflect.ReflectBeanUtils;
-import thinking.cloud.utils.reflect.ReflectClassMetaUtils;
+import thinking.cloud.utils.reflect.ReflectUtils;
 
 /**
  * 覆盖{@link ModelAttributeParameterExpander}
@@ -91,9 +92,10 @@ public class CustomizeModelAttributeParameterExpander extends ModelAttributePara
         Set<PropertyDescriptor> propertyDescriptors = propertyDescriptors(context.getParamType().getErasedType());
         Map<Method, PropertyDescriptor> propertyLookupByGetter
                 = propertyDescriptorsByMethod(context.getParamType().getErasedType(), propertyDescriptors);
+        
         Iterable<ResolvedMethod> getters = FluentIterable.from(accessors.in(context.getParamType()))
                 .filter(onlyValidGetters(propertyLookupByGetter.keySet()));
-
+        
         Map<String, ResolvedField> fieldsByName = FluentIterable.from(this.fields.in(context.getParamType()))
                 .uniqueIndex(new Function<ResolvedField, String>() {
                     @Override
@@ -358,7 +360,7 @@ public class CustomizeModelAttributeParameterExpander extends ModelAttributePara
             for (PropertyDescriptor descriptor : descriptors) {
                 Field field = null;
                 try {
-                    field = ReflectClassMetaUtils.fields(clazz,true, descriptor.getName());
+                    field = ReflectUtils.field(clazz,true, descriptor.getName());
                 } catch (Exception e) {
                     LOG.debug(String.format("Failed to get bean properties on (%s)", clazz), e);
                 }

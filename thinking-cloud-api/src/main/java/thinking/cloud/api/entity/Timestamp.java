@@ -13,11 +13,11 @@ public interface Timestamp {
 	 * 获取创建数据的时间
 	 * @return 创建时间
 	 */
-	public Date getCreateDate();
+	public Date getCreateTime();
 	
 	/**
 	 * 最后修改时间
 	 * @return 最后修改时间
 	 */
-	public Date getLastUpdateDate();
+	public Date getLastUpdateTime();
 }

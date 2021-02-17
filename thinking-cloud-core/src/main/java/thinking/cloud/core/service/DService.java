@@ -3,48 +3,64 @@ package thinking.cloud.core.service;
 import java.io.Serializable;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import thinking.cloud.api.entity.Entity;
+import thinking.cloud.api.page.Limit;
+import thinking.cloud.api.page.Page;
 import thinking.cloud.core.mapper.Mapper;
 import thinking.cloud.core.mapper.batch.BatchDeleteMapper;
 import thinking.cloud.core.mapper.batch.BatchInsertMapper;
-import thinking.cloud.core.mapper.batch.BatchUpdateMapper;
 import thinking.cloud.core.mapper.simple.CountMapper;
 import thinking.cloud.core.mapper.simple.DeleteMapper;
 import thinking.cloud.core.mapper.simple.InsertMapper;
 import thinking.cloud.core.mapper.simple.PageMapper;
 import thinking.cloud.core.mapper.simple.SelectMapper;
 import thinking.cloud.core.mapper.simple.UpdateMapper;
-import thinking.cloud.api.page.Limit;
-import thinking.cloud.api.page.Page;
+import thinking.cloud.core.service.batch.BatchDeleteService;
+import thinking.cloud.core.service.batch.BatchInsertService;
+import thinking.cloud.core.service.simple.CountService;
+import thinking.cloud.core.service.simple.DeleteService;
+import thinking.cloud.core.service.simple.InsertService;
+import thinking.cloud.core.service.simple.LimitService;
+import thinking.cloud.core.service.simple.SelectService;
+import thinking.cloud.core.service.simple.UpdateService;
 
 
 /**
- * Service层的基类
+ * 操作数据库的默认Service
  * @author think
  * @param <T> 实体泛型
  * @param <PK> 主键泛型
  */
-public abstract class DbService<T extends Entity<PK>, PK extends Serializable>  {
-	
+@Service
+public interface DService<T extends Entity<PK>, PK extends Serializable> extends 
+																				BatchDeleteService<T, Integer>,
+																				BatchInsertService<T,T>,
+																				InsertService<T, T>,
+																				DeleteService<PK, Integer>,
+																				UpdateService<T, Integer>,
+																				SelectService<PK, T>,
+																				LimitService<Limit, Page<T>>,
+																				CountService<Limit, Long>{
+
 	/**
 	 * 获取mapper接口的实现类
 	 * @return
 	 */
-	protected abstract Mapper<T, PK>  getBaseMapper();
+	Mapper<T, PK>  getBaseMapper();
 	
-	/**
-	 * 保存
-	 * @param Entity 保存的实体
-	 * @return 操作是否成功，影响行数为0，则返回false。
-	 */
-	public boolean insert(T Entity){
+	@Override
+	default T insert(T entity){
 		if(getBaseMapper() instanceof InsertMapper<?, ?>){
 			try {
-				int number = ((InsertMapper<T,PK>)getBaseMapper()).insert(Entity);
+				int number = ((InsertMapper<T,PK>)getBaseMapper()).insert(entity);
 				if(number != 0){
-					return false;
+					return entity;
 				}
-				return true;
+				return null;
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
@@ -58,14 +74,15 @@ public abstract class DbService<T extends Entity<PK>, PK extends Serializable>  
 	 * @param list 保存的实体的集合
 	 * @return 操作是否成功，影响行数若与list集合的长度不一致，则返回false。
 	 */
-	public boolean batchInsert(List<T> list){
+	@Override
+	default List<T> batchInsert(List<T> list){
 		if(getBaseMapper() instanceof BatchInsertMapper<?, ?>){
 			try {
 				int number = ((BatchInsertMapper<T,PK>)getBaseMapper()).batchInsert(list);
 				if(number != list.size()){
-					return false;
+					return null;
 				}
-				return true;
+				return list;
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
@@ -79,7 +96,8 @@ public abstract class DbService<T extends Entity<PK>, PK extends Serializable>  
 	 * @param pk 删除的主键
 	 * @return 影响行数
 	 */
-	public int delete(PK pk){
+	@Override
+	default Integer delete(PK pk){
 		if(getBaseMapper() instanceof DeleteMapper<?, ?>){
 			try {
 				return ((DeleteMapper<T,PK>)getBaseMapper()).delete(pk);
@@ -96,10 +114,11 @@ public abstract class DbService<T extends Entity<PK>, PK extends Serializable>  
 	 * @param ids 要删除的id列表
 	 * @return 影响行数
 	 */
-	public int batchdelete(List<PK> ids){
+	@Override
+	default Integer batchdelete(T entity){
 		if(getBaseMapper() instanceof BatchDeleteMapper<?, ?>){
 			try {
-				return ((BatchDeleteMapper<T,PK>)getBaseMapper()).deleteByIds(ids);
+				return ((BatchDeleteMapper<T,PK>)getBaseMapper()).deleteByIds(entity);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
@@ -110,13 +129,14 @@ public abstract class DbService<T extends Entity<PK>, PK extends Serializable>  
 	
 	/**
 	 * 修改
-	 * @param Entity 保存的实体
+	 * @param entity 保存的实体
 	 * @return 影响行数
 	 */
-	public int update(T Entity){
+	@Override
+	default Integer update(T entity){
 		if(getBaseMapper() instanceof UpdateMapper<?, ?>){
 			try {
-				return ((UpdateMapper<T, PK>)getBaseMapper()).update(Entity);
+				return ((UpdateMapper<T, PK>)getBaseMapper()).update(entity);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
@@ -124,31 +144,15 @@ public abstract class DbService<T extends Entity<PK>, PK extends Serializable>  
 			throw new RuntimeException("baseMapper not an UpdateMapper implement!");
 		}
 	}
-	
-	/**
-	 * 批量修改
-	 * @param Entity 修改的实体值
-	 * @param ids 要修改的id列表
-	 * @return 影响行数
-	 */
-	public int batchUpdate(T Entity, List<PK> ids){
-		if(getBaseMapper() instanceof BatchUpdateMapper<?, ?>){
-			try {
-				return ((BatchUpdateMapper<T, PK>)getBaseMapper()).updateByIds(Entity, ids);
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
-		}else{
-			throw new RuntimeException("baseMapper not a BatchUpdateMapper implement!");
-		}
-	}
+
 	
 	/**
 	 * 根据主键查询
 	 * @param pk 主键
 	 * @return 查询结果
 	 */
-	public T selectByPK(PK pk){
+	@Override
+	default T selectByPK(PK pk){
 		if(getBaseMapper() instanceof SelectMapper<?, ?>){
 			try {
 				T Entity = ((SelectMapper<T, PK>)getBaseMapper()).select(pk);
@@ -166,10 +170,14 @@ public abstract class DbService<T extends Entity<PK>, PK extends Serializable>  
 	 * @param limit 查询件
 	 * @return 分页对象
 	 */
-	public Page<T> queryPage(Limit limit){
+	@Override
+	default Page<T> queryPage(Limit limit){
 		if(getBaseMapper() instanceof PageMapper<?, ?>){
 			try {
-				Page<T> page = ((PageMapper<T, PK>)getBaseMapper()).queryPage(limit);
+				List<T> list = ((PageMapper<T, PK>)getBaseMapper()).queryPage(limit);
+				Page<T> page = new Page<>();
+				BeanUtils.copyProperties(limit, page);
+				page.setRecords(list);
 				return page;
 			} catch (Exception e) {
 				throw new RuntimeException(e);
@@ -184,7 +192,8 @@ public abstract class DbService<T extends Entity<PK>, PK extends Serializable>  
 	 * @param limit 查询条件
 	 * @return 总数
 	 */
-	public Long count(Limit limit){
+	@Override
+	default Long count(Limit limit){
 		if(getBaseMapper() instanceof CountMapper<?, ?>){
 			try {
 				Long count = ((CountMapper<T, PK>)getBaseMapper()).count(limit);

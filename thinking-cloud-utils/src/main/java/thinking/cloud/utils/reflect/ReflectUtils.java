@@ -8,10 +8,11 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author admin
+ * 反射的工具类
+ * @author thinking
  * @date 2021/1/11 11:07
  */
-public class ReflectClassMetaUtils {
+public class ReflectUtils {
     /**
      *  获取类中所有属性
      * @param cl 指定類
@@ -26,7 +27,7 @@ public class ReflectClassMetaUtils {
         if(exculdeFieldNames!=null && exculdeFieldNames.length > 0) {
             exculdeFieldNameList = Arrays.asList(exculdeFieldNames);
         }
-        while(cl!=null) {
+        while(cl!=null && cl!=Object.class) {
             if(isSupper) {
                 fields = cl.getDeclaredFields();
                 cl = cl.getSuperclass();
@@ -49,21 +50,25 @@ public class ReflectClassMetaUtils {
      * @param fieldName 指定的属性名
      * @return
      */
-    public static Field fields(Class<?> cl,boolean isSupper,String fieldName)  {
-
-        while(cl!=null) {
-            try {
-                return cl.getDeclaredField(fieldName);
-            } catch (NoSuchFieldException e) {
-                if(isSupper) {
-                    cl = cl.getSuperclass();
-                    if(cl == Object.class){
-                        break;
-                    }
-                }
-            }
+    public static Field field(Class<?> cl,boolean isSupper,String fieldName)  {
+		Field field = null;
+        while(cl!=null && cl!=Object.class) {
+        	try {
+	             field = cl.getDeclaredField(fieldName);
+	             break;
+        	}catch (NoSuchFieldException e) {
+        		// 异常, 表示没有找到
+        		if(isSupper) {
+        			// 需要继续查找父类
+        			cl = cl.getSuperclass();
+        		}else {
+        			// 不需要查找父类
+        			break;
+        		}
+			}
+ 
         }
-        return null;
+		return field;
     }
 
     /**
@@ -97,5 +102,49 @@ public class ReflectClassMetaUtils {
             }
         }
         throw new RuntimeException("指定对象上找不到指定的接口");
+    }
+    
+    /**
+     * 获取指定的属性值
+     * @param <T> 属性值类型的泛型
+     * @param target 目标对象
+     * @param isSupper 是否包含父类
+     * @param fieldName 属性名
+     * @return 属性值
+     */
+    @SuppressWarnings("unchecked")
+	public static <T> T fieldValue(Object target,boolean isSupper,String fieldName) {
+    	T value = null;
+    	try {
+	    	Field field = field(target.getClass(), isSupper, fieldName);
+	    	if(field  != null) {
+	    		field.setAccessible(true);
+	    		value = (T) field.get(target);
+	    	}
+    	}catch (Exception e) {
+    		throw new RuntimeException(e);
+		}
+    	return value;
+    }
+    
+    /**
+     * 设置指定的属性值
+     * @param <T> 属性值类型的泛型
+     * @param target 目标对象
+     * @param isSupper 是否包含父类
+     * @param fieldName 属性名
+     * @param fieldValue 属性值
+     */
+	public static <T> void fieldValue(Object target,boolean isSupper,String fieldName, T fieldValue) {
+
+    	try {
+	    	Field field = field(target.getClass(), isSupper, fieldName);
+	    	if(field  != null) {
+	    		field.setAccessible(true);
+	    		field.set(target, fieldValue);
+	    	}
+    	}catch (Exception e) {
+    		throw new RuntimeException(e);
+		}
     }
 }

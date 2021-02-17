@@ -17,9 +17,9 @@ import thinking.cloud.core.mapper.Mapper;
 public interface BatchDeleteMapper <T extends Entity<PK>,PK extends Serializable>  extends Mapper<T, PK> {	
 	/**
 	 * 根据多个id批量删除数据
-	 * @param condition 删除条件
+	 * @param entity 删除条件
 	 * @return 影响条数
 	 * @throws Exception SQL异常
 	 */
-	public int deleteByIds(List<PK> ids) ;
+	public int deleteByIds(T entity) ;
 }

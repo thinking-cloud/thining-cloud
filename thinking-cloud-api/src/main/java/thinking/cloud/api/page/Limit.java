@@ -1,47 +1,83 @@
 package thinking.cloud.api.page;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.annotations.ApiModelProperty;
-import thinking.cloud.api.entity.Entity;
+import thinking.cloud.api.annotation.IgnoreSwaggerParameter;
 
 /**
  * 分页查询条件
  * <p>分页查询条件</p> 
  * @author think
  */
-public interface Limit  {
-	int DEFAULT_PAGE_N0 = 1;
-	int DEFAULT_PAGE_SIZE = 25;
+public interface Limit extends BaseLimit { 
+
+	
+	ThreadLocal<Integer> threadLocal_pageNo =new ThreadLocal<>();
+	ThreadLocal<Integer> threadLocal_pageSize =new ThreadLocal<>();
+	ThreadLocal<Long> threadLocal_totalRecord = new ThreadLocal<>();
+	
 	/**
 	 * 获取当前页码
 	 * @return
 	 */
-	@ApiModelProperty(value="页码",example = DEFAULT_PAGE_N0+"")
-	int getPageNo();
+	default Integer getPageNo() {
+		Integer pageNo = threadLocal_pageNo.get();
+		return pageNo == null || pageNo<=0 ? DEFAULT_PAGE_N0:pageNo;
+	}
 
 	/**
 	 * 设置当前页码
 	 * @param pageNo
 	 */
-	void setPageNo(int pageNo);
+	default void setPageNo(int pageNo) {
+		threadLocal_pageNo.set(pageNo<=0 ? DEFAULT_PAGE_N0 : pageNo);
+	}
 
 	/**
 	 * 获取每页显示的条数
 	 * @return
 	 */
-	@ApiModelProperty(value="每页显示条数",example = DEFAULT_PAGE_SIZE+"")
-	int getPageSize();
+	default Integer getPageSize() {
+		Integer pageSize = threadLocal_pageSize.get();
+		return pageSize == null || pageSize <= 0 ? DEFAULT_PAGE_SIZE : pageSize;
+	}
 
 	/**
 	 * 设置每页显示的条数
 	 * @param pageSize
 	 */
-	void setPageSize(int pageSize);
+	default void setPageSize(int pageSize) {
+		threadLocal_pageSize.set(pageSize <= 0? DEFAULT_PAGE_SIZE : pageSize);
+	}
+	
+	default void setTotalRecord(long total) {
+		threadLocal_totalRecord.set(total);
+	}
+	
+	@IgnoreSwaggerParameter
+	@JsonIgnore
+	@ApiModelProperty(value="总条数",example = "0")
+	default long getTotalRecord() {
+		return threadLocal_totalRecord.get();
+	}
 
 	/**
 	 * 获取数据起始索引
 	 * @return
 	 */
-	default long getStartIndex(){
+	@IgnoreSwaggerParameter
+	@JsonIgnore
+	@ApiModelProperty(value="起始索引",example = "0")
+	default int getStartIndex(){
 		return (getPageNo() - 1) * getPageSize();
 	}
+
+	default void cleanUp() {
+		threadLocal_pageNo.remove();
+		threadLocal_pageSize.remove();
+		threadLocal_totalRecord.remove();
+	}
+	
+	
 }
