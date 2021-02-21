@@ -2,7 +2,9 @@ package thinking.cloud.rest.client;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
@@ -13,12 +15,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import lombok.Data;
 import thinking.cloud.rest.client.entity.RespData;
 import thinking.cloud.rest.client.entity.RestDownloadFile;
 import thinking.cloud.rest.client.entity.RestUploadFile;
@@ -35,6 +39,7 @@ import thinking.cloud.utils.data.GsonUtils;
  * @date 2020年11月18日
  */
 @Component
+@Data
 public class RestClient {
 	@Autowired
 	private RestUtils restUtils;
@@ -307,5 +312,17 @@ public class RestClient {
 	public RespData<Resource> downloadBigFile(String url, String authorization, RestDownloadFile restFile,String... exculdeFieldNames) {
 		HttpHeaders generaHeader = restUtils.generaHeader(authorization);
 		return download(url, generaHeader, restFile,exculdeFieldNames);
+	}
+	
+	/**
+	 * 获取响应头
+	 * @param url 请求url
+	 * @param method 请求方法
+	 * @param paramObj 请求参数 
+	 * @return 响应头
+	 */
+	public RespData<HttpHeaders> responseHeaders(String url, HttpMethod method,Object paramObj) {
+		RespData<HttpHeaders> responseHeaders = restUtils.responseHeaders(url, method, paramObj);
+		return responseHeaders;
 	}
 }

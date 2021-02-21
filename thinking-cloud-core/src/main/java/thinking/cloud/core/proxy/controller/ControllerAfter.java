@@ -5,6 +5,9 @@ import javax.servlet.ServletResponse;
 
 import org.aspectj.lang.JoinPoint;
 
+import io.swagger.models.Model;
+import thinking.cloud.core.proxy.ProxyHandler;
+
 /**
  * controller最终通知的接口
  * <P>
@@ -13,12 +16,6 @@ import org.aspectj.lang.JoinPoint;
  * @author zhouxinke
  * @date 2020年12月1日
  */
-public interface ControllerAfter {
-	/**
-	 * 处理最终通知的方法
-	 * @param request 请求对象
-	 * @param response 响应对象
-	 * @param point 连接点
-	 */
-	public void handler(ServletRequest request,ServletResponse response,JoinPoint point);
+public interface ControllerAfter extends ProxyHandler{
+	public void handler(Model model);
 }

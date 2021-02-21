@@ -71,6 +71,7 @@ public class Page<T> implements BaseLimit {
 	 */
 	@ApiModelProperty(value="总记录数",example = "0")
 	public long getTotalRecord() {
+		if(totalRecord == null) return 0;
 		return totalRecord;
 	}
 

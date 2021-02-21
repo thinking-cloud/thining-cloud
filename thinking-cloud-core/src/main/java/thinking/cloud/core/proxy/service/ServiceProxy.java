@@ -1,4 +1,4 @@
-package thinking.cloud.core.service.proxy;
+package thinking.cloud.core.proxy.service;
 
 import java.util.List;
 
@@ -11,6 +11,9 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import thinking.cloud.core.proxy.Model;
+import thinking.cloud.core.proxy.ProxyHandler;
 
 /**
  * Service的统一代理类
@@ -38,10 +41,12 @@ public class ServiceProxy {
 	}
 	
 	@Before("proxy()")
-	public void before(JoinPoint point) {		
+	public void before(JoinPoint point) {
+		if(point.getTarget() instanceof ProxyHandler) return ;
 		if(beforeList != null && beforeList.size()>0) {
 			for (ServiceBefore before : beforeList) {
-				before.handler( point);
+				Model model = Model.builder().point(point).build();
+				before.handler(model);
 			}
 		}
 	}
@@ -49,26 +54,32 @@ public class ServiceProxy {
 
 	@AfterReturning(value = "proxy()", returning = "returnVal")
 	public void afterRuturning(JoinPoint point, Object returnVal) {
+		if(point.getTarget() instanceof ProxyHandler) return ;
 		if(afterRuturningList != null && afterRuturningList.size()>0) {
 			for (ServiceAfterReturning runtuning : afterRuturningList) {
-				runtuning.handler(point,returnVal);
+				Model model = Model.builder().point(point).returnObj(returnVal).build();
+				runtuning.handler(model);
 			}
 		}
 	}
 	@AfterThrowing(value="proxy()", throwing = "throwable")
 	public void afterThrow(JoinPoint point,Throwable throwable) {
+		if(point.getTarget() instanceof ProxyHandler) return ;
 		if(afterThrowList != null && afterThrowList.size()>0) {
 			for (ServiceAfterThrowing throwing : afterThrowList) {
-				throwing.handler(point, throwable);
+				Model model = Model.builder().point(point).throwable(throwable).build();
+				throwing.handler(model);
 			}
 		}
 	}
 	
 	@After("proxy()")
 	public void after(JoinPoint point) {
+		if(point.getTarget() instanceof ProxyHandler) return ;
 		if(afterList != null && afterList.size()>0) {
 			for (ServiceAfter after : afterList) {
-				after.handler(point);
+				Model model = Model.builder().point(point).build();
+				after.handler(model);
 			}
 		}
 	}

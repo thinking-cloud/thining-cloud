@@ -46,6 +46,7 @@ public class OkHttpRestTemplateFactory {
     public RestTemplate httpRestTemplate() {
         ClientHttpRequestFactory factory = httpRequestFactory();
         RestTemplate restTemplate = new RestTemplate(factory);
+        //RestTemplate restTemplate = new RestTemplate();
         // 可以添加消息转换
         //restTemplate.setMessageConverters(null);
         // 可以增加拦截器

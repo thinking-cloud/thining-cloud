@@ -1,5 +1,7 @@
 package thinking.cloud.rest.client.utils;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -7,6 +9,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -98,6 +101,34 @@ public class RestUtils {
 			loggerRequestInfo(method,url);
 			ResponseEntity<R> responseEntity = restTemplate.exchange(url, method, requestEntity, responseType);
 			respData = successResp2RespData(responseEntity, responseType);
+		}catch (HttpClientErrorException e) {
+			respData = errorResp2RespData(e);
+		} catch (HttpServerErrorException e) {
+			respData = errorResp2RespData(e);
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		loggerResponseInfo(respData);
+		return respData;
+	}
+	
+	/**
+	 * 获取响应头
+	 * @param url 请求url
+	 * @param method 请求方式
+	 * @param paramObj 请求参数对象
+	 * @return
+	 */
+	public RespData<HttpHeaders> responseHeaders(String url, HttpMethod method,Object paramObj){
+		RespData<HttpHeaders> respData = new RespData<>();
+		try {
+			loggerRequestInfo(method,url);
+			MultiValueMap<String, Object> params = RestUrlPramsUtils.obj2MultiValueMap(paramObj, false, null);
+			HttpHeaders headers = new HttpHeaders();
+			HttpEntity<?> requestEntity = new HttpEntity<>(params,headers);
+			ResponseEntity<String> responseEntity = restTemplate.exchange(url,method,requestEntity,String.class);
+			respData.setData(responseEntity.getHeaders());
 		}catch (HttpClientErrorException e) {
 			respData = errorResp2RespData(e);
 		} catch (HttpServerErrorException e) {

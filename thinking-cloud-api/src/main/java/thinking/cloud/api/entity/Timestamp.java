@@ -20,4 +20,6 @@ public interface Timestamp {
 	 * @return 最后修改时间
 	 */
 	public Date getLastUpdateTime();
+	
+	public void setLastUpdateTime(Date date);
 }

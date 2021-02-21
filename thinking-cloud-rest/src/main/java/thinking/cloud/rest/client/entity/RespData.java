@@ -2,6 +2,7 @@ package thinking.cloud.rest.client.entity;
 
 import org.springframework.http.HttpStatus;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -15,17 +16,5 @@ public class RespData<R> {
 	private HttpStatus status;
 	private R data;
 	private String error;
-	
-	public RespData(HttpStatus status, R data) {
-		this.status = status;
-		this.data = data;
-	}
-
-	public RespData(HttpStatus status, String error) {
-		this.status = status;
-		this.error = error;
-	}
-
-	public RespData() { }
 
 }

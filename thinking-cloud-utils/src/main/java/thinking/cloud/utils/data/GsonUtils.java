@@ -31,7 +31,7 @@ public class GsonUtils {
 	 */
 	public static <T> T toObj(String json, Class<T> clazz) {
 		if(json!=null) {
-			return gson.fromJson(json, clazz);
+			return (T)gson.fromJson(json, clazz);
 		}
 		return null;
 	}

@@ -62,7 +62,7 @@ public class DateFormatUtils {
 			SimpleDateFormat sdf = new SimpleDateFormat(pattern);
 			return sdf.parse(format);
 		}catch (ParseException e) {
-			throw new DateFormatException("解析日期出现异常:"+e.getMessage());
+			throw new DateFormatException("解析日期出现异常:"+e.getMessage()+" 正确格式:"+pattern);
 		}
 	}
 

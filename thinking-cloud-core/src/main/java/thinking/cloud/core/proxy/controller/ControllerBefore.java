@@ -5,6 +5,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.aspectj.lang.JoinPoint;
 
+import io.swagger.models.Model;
+import thinking.cloud.core.proxy.ProxyHandler;
+
 /**
  * controller层前置通知的接口
  * <P>
@@ -13,13 +16,6 @@ import org.aspectj.lang.JoinPoint;
  * @author zhouxinke
  * @date 2020年12月1日
  */
-public interface ControllerBefore {
-	
-	/**
-	 * 前置通知的处理方法
-	 * @param request 请求对象
-	 * @param response 响应对象
-	 * @param point 连接点
-	 */
-	public void handler(HttpServletRequest request,HttpServletResponse response, JoinPoint point) ;
+public interface ControllerBefore extends ProxyHandler{
+	public void handler(Model model);
 }

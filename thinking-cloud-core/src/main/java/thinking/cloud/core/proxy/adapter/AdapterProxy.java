@@ -1,9 +1,6 @@
-package thinking.cloud.core.proxy.controller;
+package thinking.cloud.core.proxy.adapter;
 
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -19,39 +16,36 @@ import thinking.cloud.core.proxy.Model;
 import thinking.cloud.core.proxy.ProxyHandler;
 
 /**
- * Controller的统一代理类
+ * Adapter的统一代理类
  * <P>
- * 	Controller的统一代理类 
+ * 	Adapter的统一代理类 
  * </P>
- * @author zhouxinke
+ * @author think
  * @date 2020年12月1日
  */
 @Aspect
 @Component
-public class ControllerProxy {
+public class AdapterProxy {
 	@Autowired(required = false)
-	private List<ControllerBefore> beforeList;
+	private List<AdapterBefore> beforeList;
 	@Autowired(required = false)
-	private List<ControllerAfter> afterList;
+	private List<AdapterAfter> afterList;
 	@Autowired(required = false)
-	private List<ControllerAfterReturning> afterRuturningList;
+	private List<AdapterAfterReturning> afterRuturningList;
 	@Autowired(required = false)
-	private List<ControllerAfterThrowing> afterThrowList;
+	private List<AdapterAfterThrowing> afterThrowList;
 	
-	public final static ThreadLocal<HttpServletRequest> httpRequest = new ThreadLocal<>();
-	public final static ThreadLocal<HttpServletResponse> httpResponse = new ThreadLocal<>();
-
-	@Pointcut("within(*..controller..*)")
+	@Pointcut("within(*..adapter..*)")
 	private void  proxy(){
 		
 	}
 	
 	@Before("proxy()")
 	public void before(JoinPoint point) {
+		if(point.getTarget() instanceof ProxyHandler) return ;
 		if(beforeList != null && beforeList.size()>0) {
-			if(point.getTarget() instanceof ProxyHandler) return ;
-			for (ControllerBefore before : beforeList) {
-				Model model = Model.builder().request(httpRequest.get()).response(httpResponse.get()).point(point).build();
+			for (AdapterBefore before : beforeList) {
+				Model model = Model.builder().point(point).build();
 				before.handler(model);
 			}
 		}
@@ -62,8 +56,8 @@ public class ControllerProxy {
 	public void afterRuturning(JoinPoint point, Object returnVal) {
 		if(point.getTarget() instanceof ProxyHandler) return ;
 		if(afterRuturningList != null && afterRuturningList.size()>0) {
-			for (ControllerAfterReturning runtuning : afterRuturningList) {
-				Model model = Model.builder().request(httpRequest.get()).response(httpResponse.get()).point(point).returnObj(returnVal).build();
+			for (AdapterAfterReturning runtuning : afterRuturningList) {
+				Model model = Model.builder().point(point).returnObj(returnVal).build();
 				runtuning.handler(model);
 			}
 		}
@@ -72,8 +66,8 @@ public class ControllerProxy {
 	public void afterThrow(JoinPoint point,Throwable throwable) {
 		if(point.getTarget() instanceof ProxyHandler) return ;
 		if(afterThrowList != null && afterThrowList.size()>0) {
-			for (ControllerAfterThrowing throwing : afterThrowList) {
-				Model model = Model.builder().request(httpRequest.get()).response(httpResponse.get()).point(point).throwable(throwable).build();
+			for (AdapterAfterThrowing throwing : afterThrowList) {
+				Model model = Model.builder().point(point).throwable(throwable).build();
 				throwing.handler(model);
 			}
 		}
@@ -81,18 +75,12 @@ public class ControllerProxy {
 	
 	@After("proxy()")
 	public void after(JoinPoint point) {
+		if(point.getTarget() instanceof ProxyHandler) return ;
 		if(afterList != null && afterList.size()>0) {
-			if(point.getTarget() instanceof ProxyHandler) return ;
-			for (ControllerAfter after : afterList) {
-				Model model = Model.builder().request(httpRequest.get()).response(httpResponse.get()).point(point).build();
+			for (AdapterAfter after : afterList) {
+				Model model = Model.builder().point(point).build();
 				after.handler(model);
 			}
 		}
 	}
-
-	@Override
-	protected void finalize() throws Throwable {
-		httpRequest.remove();
-		httpRequest.remove();
-	}	
 }

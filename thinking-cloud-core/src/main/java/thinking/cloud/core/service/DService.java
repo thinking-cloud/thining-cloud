@@ -1,6 +1,7 @@
 package thinking.cloud.core.service;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import thinking.cloud.api.entity.Entity;
+import thinking.cloud.api.entity.Timestamp;
 import thinking.cloud.api.page.Limit;
 import thinking.cloud.api.page.Page;
 import thinking.cloud.core.mapper.Mapper;
@@ -136,6 +138,12 @@ public interface DService<T extends Entity<PK>, PK extends Serializable> extends
 	default Integer update(T entity){
 		if(getBaseMapper() instanceof UpdateMapper<?, ?>){
 			try {
+				if(entity instanceof Timestamp) {
+					Date lastUpdateTime = ((Timestamp)entity).getLastUpdateTime();
+					if(lastUpdateTime == null) {
+						((Timestamp)entity).setLastUpdateTime(new Date());
+					}
+				}
 				return ((UpdateMapper<T, PK>)getBaseMapper()).update(entity);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
