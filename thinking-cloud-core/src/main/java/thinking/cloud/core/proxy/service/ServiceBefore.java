@@ -1,8 +1,5 @@
 package thinking.cloud.core.proxy.service;
 
-import org.aspectj.lang.JoinPoint;
-
-import io.swagger.models.Model;
 import thinking.cloud.core.proxy.ProxyHandler;
 
 /**
@@ -15,5 +12,4 @@ import thinking.cloud.core.proxy.ProxyHandler;
  */
 public interface ServiceBefore extends ProxyHandler{
 	
-	public void handler(Model model);
 }

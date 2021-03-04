@@ -5,9 +5,7 @@ import java.io.Serializable;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * 
- * <P>
- * </P>
+ * 分页顶级接口
  * @author zhouxinke
  * @date 2021年2月16日
  */

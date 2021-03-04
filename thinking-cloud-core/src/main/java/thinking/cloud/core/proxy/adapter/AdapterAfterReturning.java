@@ -1,6 +1,6 @@
 package thinking.cloud.core.proxy.adapter;
 
-import thinking.cloud.core.proxy.Model;
+import thinking.cloud.api.entity.Model;
 import thinking.cloud.core.proxy.ProxyHandler;
 
 /**
@@ -14,6 +14,5 @@ import thinking.cloud.core.proxy.ProxyHandler;
 
 public interface AdapterAfterReturning extends ProxyHandler{
 	
-	public void handler(Model model);
 		
 }

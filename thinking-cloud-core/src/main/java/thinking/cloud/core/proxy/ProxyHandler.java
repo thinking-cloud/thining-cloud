@@ -1,5 +1,7 @@
 package thinking.cloud.core.proxy;
 
+import thinking.cloud.api.entity.Model;
+
 /**
  * 
  * <P>
@@ -9,4 +11,8 @@ package thinking.cloud.core.proxy;
  */
 public interface ProxyHandler  {
 	public void handler(Model model);
+	
+	default boolean isHandler(Model model) {
+		return true;
+	}
 }

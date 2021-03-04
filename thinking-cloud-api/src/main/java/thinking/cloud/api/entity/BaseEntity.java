@@ -8,13 +8,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import thinking.cloud.api.annotation.IgnoreSwaggerParameter;
 @Data
-public abstract class BaseEntity<PK extends Serializable> implements Entity<PK>, Timestamp {
+public abstract class BaseEntity<PK extends Serializable> implements Entity<PK>, Timestamp,AuthorInfo {
 
 	private static final long serialVersionUID = -5208780711395858867L;
 	
     @JsonIgnore
     @IgnoreSwaggerParameter
 	private PK id;
+	@IgnoreSwaggerParameter
+	@JsonIgnore
+	private String updateUserId;
+	@IgnoreSwaggerParameter
+	@JsonIgnore
+	private String createUserId ;
     @JsonIgnore
     @IgnoreSwaggerParameter
 	private Date createTime;

@@ -2,7 +2,7 @@ package thinking.cloud.core.proxy.adapter;
 
 import org.aspectj.lang.JoinPoint;
 
-import thinking.cloud.core.proxy.Model;
+import thinking.cloud.api.entity.Model;
 import thinking.cloud.core.proxy.ProxyHandler;
 
 /**
@@ -14,5 +14,4 @@ import thinking.cloud.core.proxy.ProxyHandler;
  * @date 2020年12月1日
  */
 public interface AdapterAfterThrowing extends ProxyHandler{
-	public void handler(Model model);
 }

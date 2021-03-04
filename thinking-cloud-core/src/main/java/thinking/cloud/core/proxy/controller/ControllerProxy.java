@@ -15,8 +15,9 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import thinking.cloud.core.proxy.Model;
+import thinking.cloud.api.entity.Model;
 import thinking.cloud.core.proxy.ProxyHandler;
+import thinking.cloud.core.proxy.ThinkingProxy;
 
 /**
  * Controller的统一代理类
@@ -28,7 +29,7 @@ import thinking.cloud.core.proxy.ProxyHandler;
  */
 @Aspect
 @Component
-public class ControllerProxy {
+public class ControllerProxy extends ThinkingProxy{
 	@Autowired(required = false)
 	private List<ControllerBefore> beforeList;
 	@Autowired(required = false)
@@ -37,9 +38,6 @@ public class ControllerProxy {
 	private List<ControllerAfterReturning> afterRuturningList;
 	@Autowired(required = false)
 	private List<ControllerAfterThrowing> afterThrowList;
-	
-	public final static ThreadLocal<HttpServletRequest> httpRequest = new ThreadLocal<>();
-	public final static ThreadLocal<HttpServletResponse> httpResponse = new ThreadLocal<>();
 
 	@Pointcut("within(*..controller..*)")
 	private void  proxy(){
@@ -48,51 +46,22 @@ public class ControllerProxy {
 	
 	@Before("proxy()")
 	public void before(JoinPoint point) {
-		if(beforeList != null && beforeList.size()>0) {
-			if(point.getTarget() instanceof ProxyHandler) return ;
-			for (ControllerBefore before : beforeList) {
-				Model model = Model.builder().request(httpRequest.get()).response(httpResponse.get()).point(point).build();
-				before.handler(model);
-			}
-		}
+		super.before(point, beforeList);
 	}
 	
 
 	@AfterReturning(value = "proxy()", returning = "returnVal")
 	public void afterRuturning(JoinPoint point, Object returnVal) {
-		if(point.getTarget() instanceof ProxyHandler) return ;
-		if(afterRuturningList != null && afterRuturningList.size()>0) {
-			for (ControllerAfterReturning runtuning : afterRuturningList) {
-				Model model = Model.builder().request(httpRequest.get()).response(httpResponse.get()).point(point).returnObj(returnVal).build();
-				runtuning.handler(model);
-			}
-		}
+		super.afterRuturning(point, returnVal, afterRuturningList);
 	}
 	@AfterThrowing(value="proxy()", throwing = "throwable")
 	public void afterThrow(JoinPoint point,Throwable throwable) {
-		if(point.getTarget() instanceof ProxyHandler) return ;
-		if(afterThrowList != null && afterThrowList.size()>0) {
-			for (ControllerAfterThrowing throwing : afterThrowList) {
-				Model model = Model.builder().request(httpRequest.get()).response(httpResponse.get()).point(point).throwable(throwable).build();
-				throwing.handler(model);
-			}
-		}
+		super.afterThrow(point, throwable, afterThrowList);
 	}
 	
 	@After("proxy()")
 	public void after(JoinPoint point) {
-		if(afterList != null && afterList.size()>0) {
-			if(point.getTarget() instanceof ProxyHandler) return ;
-			for (ControllerAfter after : afterList) {
-				Model model = Model.builder().request(httpRequest.get()).response(httpResponse.get()).point(point).build();
-				after.handler(model);
-			}
-		}
+		super.after(point,afterList);
 	}
 
-	@Override
-	protected void finalize() throws Throwable {
-		httpRequest.remove();
-		httpRequest.remove();
-	}	
 }

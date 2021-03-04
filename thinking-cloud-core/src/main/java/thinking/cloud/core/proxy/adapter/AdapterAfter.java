@@ -15,5 +15,4 @@ import thinking.cloud.core.proxy.ProxyHandler;
  */
 public interface AdapterAfter extends ProxyHandler{
 
-	public void handler(Model model);
 }

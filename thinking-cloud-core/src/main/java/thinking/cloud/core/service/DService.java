@@ -120,7 +120,7 @@ public interface DService<T extends Entity<PK>, PK extends Serializable> extends
 	default Integer batchdelete(T entity){
 		if(getBaseMapper() instanceof BatchDeleteMapper<?, ?>){
 			try {
-				return ((BatchDeleteMapper<T,PK>)getBaseMapper()).deleteByIds(entity);
+				return ((BatchDeleteMapper<T,PK>)getBaseMapper()).deleteByEntity(entity);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}

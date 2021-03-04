@@ -82,7 +82,7 @@ public class MvcExceptionHandler {
 			log.error("thinking-core拦截异常：请求json格式有误");
 			return Message.failure("请求json格式有误");
 		}else{
-			log.error("thinking-core拦截异常：{0}",exception.getMessage());
+			log.error("thinking-core拦截异常：{}",exception);
 			return Message.failure(exception.getMessage());
 		}
 	}

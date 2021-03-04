@@ -12,8 +12,11 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import thinking.cloud.core.proxy.Model;
+import thinking.cloud.api.entity.Model;
 import thinking.cloud.core.proxy.ProxyHandler;
+import thinking.cloud.core.proxy.ThinkingProxy;
+
+
 
 /**
  * Service的统一代理类
@@ -25,7 +28,7 @@ import thinking.cloud.core.proxy.ProxyHandler;
  */
 @Aspect
 @Component
-public class ServiceProxy {
+public class ServiceProxy extends ThinkingProxy{
 	@Autowired(required = false)
 	private List<ServiceBefore> beforeList;
 	@Autowired(required = false)
@@ -35,52 +38,29 @@ public class ServiceProxy {
 	@Autowired(required = false)
 	private List<ServiceAfterThrowing> afterThrowList;
 	
-	@Pointcut("execution(* *Service.*(*))")
+	@Pointcut("within(*..service..*)")
 	private void  proxy(){
 		
 	}
 	
 	@Before("proxy()")
 	public void before(JoinPoint point) {
-		if(point.getTarget() instanceof ProxyHandler) return ;
-		if(beforeList != null && beforeList.size()>0) {
-			for (ServiceBefore before : beforeList) {
-				Model model = Model.builder().point(point).build();
-				before.handler(model);
-			}
-		}
+		super.before(point, beforeList);
 	}
 	
-
 	@AfterReturning(value = "proxy()", returning = "returnVal")
 	public void afterRuturning(JoinPoint point, Object returnVal) {
-		if(point.getTarget() instanceof ProxyHandler) return ;
-		if(afterRuturningList != null && afterRuturningList.size()>0) {
-			for (ServiceAfterReturning runtuning : afterRuturningList) {
-				Model model = Model.builder().point(point).returnObj(returnVal).build();
-				runtuning.handler(model);
-			}
-		}
+		super.afterRuturning(point, returnVal, afterRuturningList);
 	}
+	
 	@AfterThrowing(value="proxy()", throwing = "throwable")
 	public void afterThrow(JoinPoint point,Throwable throwable) {
-		if(point.getTarget() instanceof ProxyHandler) return ;
-		if(afterThrowList != null && afterThrowList.size()>0) {
-			for (ServiceAfterThrowing throwing : afterThrowList) {
-				Model model = Model.builder().point(point).throwable(throwable).build();
-				throwing.handler(model);
-			}
-		}
+		super.afterThrow(point, throwable, afterThrowList);
 	}
 	
 	@After("proxy()")
 	public void after(JoinPoint point) {
-		if(point.getTarget() instanceof ProxyHandler) return ;
-		if(afterList != null && afterList.size()>0) {
-			for (ServiceAfter after : afterList) {
-				Model model = Model.builder().point(point).build();
-				after.handler(model);
-			}
-		}
+		super.after(point,afterList);
 	}
+
 }

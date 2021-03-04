@@ -10,5 +10,5 @@ public interface ValidationGroup{
 	public static interface Delete{}
 	public static interface Update{}
 	public static interface Select{}
-	public static interface Page{}
+	public static interface QueryPage{}
 }

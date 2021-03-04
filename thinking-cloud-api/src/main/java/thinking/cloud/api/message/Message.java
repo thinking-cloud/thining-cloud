@@ -9,6 +9,7 @@ package thinking.cloud.api.message;
 import lombok.Builder;
 import lombok.Data;
 import thinking.cloud.api.constant.MESSAGE;
+import thinking.cloud.api.entity.Model;
 
 /**
  * 响应给调用者的消息格式
@@ -24,11 +25,17 @@ public class Message<T> {
 	private String code;
 	/** 响应消息 */
 	private String msg;
-	/** 响应时间戳 */
-	private long timestamp = System.currentTimeMillis();
 	/** 响应数据 */
 	private T data;
-
+	
+	/**
+	 * 响应耗时
+	 * @return
+	 */
+	public long getTimestamp() {
+		return  System.currentTimeMillis() - Model.getModel().getTimestamp();
+	}
+	
 	/**
 	 * 构建success的响应结果
 	 * @param data 响应数据

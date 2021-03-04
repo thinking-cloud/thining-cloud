@@ -1,13 +1,19 @@
 package thinking.cloud.core.configure.swagger;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.service.Parameter;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
@@ -39,6 +45,12 @@ public class DefaultSwaggerConfig {
 	@Value("${swagger.contact.email:''}")
 	private String swaggerContactEmail;
 	
+	//两者要一一对应 
+	@Value("${swagger.headers.name:''}") //请求头名  逗号分隔
+	private String headers ; 
+	@Value("${swagger.headers.description:''}")	//请求头解释  逗号分隔
+	private String descriptions;
+	
 	@Bean
 	public Docket createDocket() {
 		ApiSelectorBuilder select = new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select();
@@ -52,13 +64,40 @@ public class DefaultSwaggerConfig {
 			default:
 				throw new UnexpectedExpressionValueException(swaggerDocketType);
 		}
-		return select.paths(PathSelectors.any()).build();
+		
+		List<Parameter> headerList = new LinkedList<Parameter>();
+		if(headers != null) {
+			String[] descriptions = new String[0];
+			
+			if(this.descriptions != null) {
+				descriptions = this.descriptions.split(",");
+			}
+			
+			int index = 0;
+			ParameterBuilder parameterBuild = null;
+			for (String headerName : headers.split(",")) {
+				parameterBuild = new ParameterBuilder();
+				parameterBuild.name(headerName);
+				if(index < descriptions.length) {
+					parameterBuild.description(descriptions[index]);
+				}else {
+					parameterBuild.description(headerName);
+				}
+				parameterBuild.modelRef(new ModelRef("string")).parameterType("header").required(false).build();
+				headerList.add(parameterBuild.build());
+			}
+		}
+		
+		return select.paths(PathSelectors.any()).build().globalOperationParameters(headerList);
 	}
 	
 	private ApiInfo apiInfo() {
 		ApiInfoBuilder apiInfoBuilder = new ApiInfoBuilder();
 		apiInfoBuilder.title(swaggerApiTitle).version(swaggerApiVersion).description(swaggerApiDescription)
 					  .contact(new Contact(swaggerContactName, swaggerContactUrl, swaggerContactEmail));
+		
 		return apiInfoBuilder.build();
 	}
+	
+
 }

@@ -21,5 +21,5 @@ public interface BatchDeleteMapper <T extends Entity<PK>,PK extends Serializable
 	 * @return 影响条数
 	 * @throws Exception SQL异常
 	 */
-	public int deleteByIds(T entity) ;
+	public int deleteByEntity(T entity) ;
 }

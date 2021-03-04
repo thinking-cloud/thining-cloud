@@ -1,10 +1,12 @@
 package thinking.cloud.utils.reflect;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -13,6 +15,23 @@ import java.util.List;
  * @date 2021/1/11 11:07
  */
 public class ReflectUtils {
+	
+	
+	/**
+	 * 获取指定类及父类的指定注解
+	 * @param clazz 指定类
+	 * @return
+	 */
+	public static Annotation annotationBySupperClass(Class clazz,Class annotationClass){
+		Annotation annotation = clazz.getAnnotation(annotationClass);
+
+		while(annotation==null && clazz!=Object.class) {
+			annotation = clazz.getAnnotation(annotationClass);
+			clazz = clazz.getSuperclass();
+		}
+		return annotation;
+	}
+	
     /**
      *  获取类中所有属性
      * @param cl 指定類
