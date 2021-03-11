@@ -59,6 +59,7 @@ public class DateFormatUtils {
 	 */
 	public static Date toDate(String format,String pattern) {
 		try {
+			if(format == null) return null;
 			SimpleDateFormat sdf = new SimpleDateFormat(pattern);
 			return sdf.parse(format);
 		}catch (ParseException e) {

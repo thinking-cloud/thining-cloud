@@ -128,7 +128,8 @@
     <module>thinking-cloud-demo</module>
     <module>thinking-cloud-rest</module>
 		<module>thinking-cloud-api</module>
-	</modules>
+    <module>thinking-cloud-generator-code</module>
+  </modules>
 
 	<build>
 		<plugins>

@@ -27,4 +27,53 @@ public class ReflectBeanUtils {
         String firstChar = methodName.substring(0, 1);
         return firstChar.toLowerCase()+methodName.substring(1);
     }
+    
+    /**
+     * 表名转类名
+     * @param prefix 前置忽略字符
+     * @param split 分隔字符
+     * @param tableName 表明
+     * @return
+     */
+    public static String tableName2ClassName(String prefix, String split,String tableName) {
+    	if(prefix != null && !prefix.trim().equals("")) {
+    		tableName = tableName.replace(prefix, "");
+    	}
+    	String[] tableNameSplit = tableName.split(split);
+    	StringBuilder className = new StringBuilder();
+    	String fisrt = null;
+    	String other = null;
+    	for (String tns : tableNameSplit) {
+			fisrt = tns.substring(0,1).toUpperCase();
+			other = tns.substring(1);
+			className.append(fisrt).append(other);
+		}
+    	return className.toString();
+    }
+    
+    /**
+     * 列名转属性名
+     * <p>属-性-名-id, 其中-id不忽略</p>
+     * @return
+     */
+    public static String columnName2FieldName(String prefix, String split, String fieldName) {
+    	if(prefix != null && !prefix.trim().equals("")) {
+    		fieldName = fieldName.replace(prefix, "");
+    	}
+    	String[] splitFieldName = fieldName.split(split);
+    	StringBuilder className = new StringBuilder();
+    	String fisrt = null;
+    	String other = null;
+    	for (int i = 0; i < splitFieldName.length-1; i++) {
+    		String tfn = splitFieldName[i];
+			if(i==0) {
+				className.append(tfn);
+			}else {
+				fisrt = tfn.substring(0,1).toUpperCase();
+				other = tfn.substring(1);
+				className.append(fisrt).append(other);
+			}
+		}
+    	return className.toString();
+    }
 }
