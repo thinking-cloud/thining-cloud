@@ -15,15 +15,17 @@ public abstract class BaseEntity<PK extends Serializable> implements Entity<PK>,
     @JsonIgnore
     @IgnoreSwaggerParameter
 	private PK id;
-	@IgnoreSwaggerParameter
-	@JsonIgnore
-	private String updateUserId;
+
 	@IgnoreSwaggerParameter
 	@JsonIgnore
 	private String createUserId ;
     @JsonIgnore
     @IgnoreSwaggerParameter
 	private Date createTime;
+    
+	@IgnoreSwaggerParameter
+	@JsonIgnore
+	private String lastUpdateUserId;
     @JsonIgnore
     @IgnoreSwaggerParameter
 	private Date lastUpdateTime;

@@ -21,5 +21,5 @@ public interface DeleteMapper <T extends Entity<PK>,PK extends Serializable> ext
 	 * @return 影响条数
 	 * @throws Exception SQL异常
 	 */
-	public int delete(PK pk) ;
+	public int delete(T entity) ;
 }

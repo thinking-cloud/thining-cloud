@@ -6,8 +6,10 @@
  */
 package thinking.cloud.api.message;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import thinking.cloud.api.constant.MESSAGE;
 import thinking.cloud.api.entity.Model;
 
@@ -20,6 +22,8 @@ import thinking.cloud.api.entity.Model;
  */
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Message<T> {
 	/** 响应码 */
 	private String code;

@@ -1,11 +1,11 @@
 package thinking.cloud.core.service;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import thinking.cloud.api.entity.Entity;
@@ -13,18 +13,16 @@ import thinking.cloud.api.entity.Timestamp;
 import thinking.cloud.api.page.Limit;
 import thinking.cloud.api.page.Page;
 import thinking.cloud.core.mapper.Mapper;
-import thinking.cloud.core.mapper.batch.BatchDeleteMapper;
-import thinking.cloud.core.mapper.batch.BatchInsertMapper;
 import thinking.cloud.core.mapper.simple.CountMapper;
 import thinking.cloud.core.mapper.simple.DeleteMapper;
+import thinking.cloud.core.mapper.simple.InsertCollectionMapper;
 import thinking.cloud.core.mapper.simple.InsertMapper;
 import thinking.cloud.core.mapper.simple.PageMapper;
 import thinking.cloud.core.mapper.simple.SelectMapper;
 import thinking.cloud.core.mapper.simple.UpdateMapper;
-import thinking.cloud.core.service.batch.BatchDeleteService;
-import thinking.cloud.core.service.batch.BatchInsertService;
 import thinking.cloud.core.service.simple.CountService;
 import thinking.cloud.core.service.simple.DeleteService;
+import thinking.cloud.core.service.simple.InsertCollectionService;
 import thinking.cloud.core.service.simple.InsertService;
 import thinking.cloud.core.service.simple.LimitService;
 import thinking.cloud.core.service.simple.SelectService;
@@ -39,10 +37,9 @@ import thinking.cloud.core.service.simple.UpdateService;
  */
 @Service
 public interface DService<T extends Entity<PK>, PK extends Serializable> extends 
-																				BatchDeleteService<T, Integer>,
-																				BatchInsertService<T,T>,
+																				InsertCollectionService<T,T>,
 																				InsertService<T, T>,
-																				DeleteService<PK, Integer>,
+																				DeleteService<T, Integer>,
 																				UpdateService<T, Integer>,
 																				SelectService<PK, T>,
 																				LimitService<Limit, Page<T>>,
@@ -77,14 +74,14 @@ public interface DService<T extends Entity<PK>, PK extends Serializable> extends
 	 * @return 操作是否成功，影响行数若与list集合的长度不一致，则返回false。
 	 */
 	@Override
-	default List<T> batchInsert(List<T> list){
-		if(getBaseMapper() instanceof BatchInsertMapper<?, ?>){
+	default Collection<T> insertCollection(Collection<T> entitys){
+		if(getBaseMapper() instanceof InsertCollectionMapper<?, ?>){
 			try {
-				int number = ((BatchInsertMapper<T,PK>)getBaseMapper()).batchInsert(list);
-				if(number != list.size()){
+				int number = ((InsertCollectionMapper<T,PK>)getBaseMapper()).insertCollection(entitys);
+				if(number != entitys.size()){
 					return null;
 				}
-				return list;
+				return entitys;
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
@@ -99,33 +96,15 @@ public interface DService<T extends Entity<PK>, PK extends Serializable> extends
 	 * @return 影响行数
 	 */
 	@Override
-	default Integer delete(PK pk){
+	default Integer delete(T entity){
 		if(getBaseMapper() instanceof DeleteMapper<?, ?>){
 			try {
-				return ((DeleteMapper<T,PK>)getBaseMapper()).delete(pk);
+				return ((DeleteMapper<T,PK>)getBaseMapper()).delete(entity);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
 		}else{
 			throw new RuntimeException("baseMapper not a DeleteMapper implement!");
-		}
-	}
-	
-	/**
-	 * 批量删除
-	 * @param ids 要删除的id列表
-	 * @return 影响行数
-	 */
-	@Override
-	default Integer batchdelete(T entity){
-		if(getBaseMapper() instanceof BatchDeleteMapper<?, ?>){
-			try {
-				return ((BatchDeleteMapper<T,PK>)getBaseMapper()).deleteByEntity(entity);
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
-		}else{
-			throw new RuntimeException("baseMapper not a BatchDeleteMapper implement!");
 		}
 	}
 	

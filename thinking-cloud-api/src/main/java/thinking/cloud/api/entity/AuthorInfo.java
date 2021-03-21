@@ -22,13 +22,13 @@ public interface AuthorInfo {
 	 * 获取最后修改用户id
 	 * @return
 	 */
-	public String getUpdateUserId(); 
+	public String getLastUpdateUserId(); 
 	
 	/**
 	 * 设置最后修改用户id
 	 * @param updateUserId
 	 */
-	public void setUpdateUserId(String updateUserId);
+	public void setLastUpdateUserId(String updateUserId);
 	
 	
 }

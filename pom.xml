@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<!-- self project -->
 	<groupId>thinking.cloud</groupId>
@@ -19,7 +21,9 @@
 		<mybatis.version>3.4.6</mybatis.version>
 		<mybatis.spring.boot.starter>1.3.2</mybatis.spring.boot.starter>
 		<jdbc.mariadb.version>2.3.0</jdbc.mariadb.version>
+		<fast.json.version>1.2.75</fast.json.version>
 		<okhttp3.version>3.8.1</okhttp3.version>
+		<feign.okhttp>11.0</feign.okhttp>
 	</properties>
 
 	<!-- import jar -->
@@ -84,6 +88,11 @@
 				<artifactId>gson</artifactId>
 				<version>${gson.version}</version>
 			</dependency>
+			<dependency>
+			    <groupId>com.alibaba</groupId>
+			    <artifactId>fastjson</artifactId>
+				<version>${fast.json.version}</version>
+			</dependency>
 			<!-- database jar -->
 			<dependency>
 				<groupId>org.mybatis</groupId>
@@ -101,35 +110,40 @@
 				<version>${jdbc.mariadb.version}</version>
 			</dependency>
 			<dependency>
-			    <groupId>com.squareup.okhttp3</groupId>
-			    <artifactId>okhttp</artifactId>
-			    <version>${okhttp3.version}</version>
+				<groupId>com.squareup.okhttp3</groupId>
+				<artifactId>okhttp</artifactId>
+				<version>${okhttp3.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.openfeign</groupId>
+				<artifactId>feign-okhttp</artifactId>
+				<version>${feign.okhttp}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
-		<distributionManagement>
-		<repository> 
-	    	<id>releases</id>
-	   		<name>Internal Releases</name> 
-	    	<url>http://58.210.154.140:13011/repository/devops-release/</url> 
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<name>Internal Releases</name>
+			<url>http://58.210.154.140:13011/repository/devops-release/</url>
 		</repository>
-		<snapshotRepository> 
-		    <id>snapshots</id> 
-		    <name>Internal Snapshots</name> 
-		    <url>http://58.210.154.140:13011/repository/devops-snapshot/</url> 
-		</snapshotRepository> 
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>Internal Snapshots</name>
+			<url>http://58.210.154.140:13011/repository/devops-snapshot/</url>
+		</snapshotRepository>
 	</distributionManagement>
 
 	<!-- modules -->
 	<modules>
 		<module>thinking-cloud-core</module>
 		<module>thinking-cloud-utils</module>
-    <module>thinking-cloud-demo</module>
-    <module>thinking-cloud-rest</module>
+		<module>thinking-cloud-demo</module>
+		<module>thinking-cloud-rest</module>
 		<module>thinking-cloud-api</module>
-    <module>thinking-cloud-generator-code</module>
-  </modules>
+		<module>thinking-cloud-generator-code</module>
+	</modules>
 
 	<build>
 		<plugins>

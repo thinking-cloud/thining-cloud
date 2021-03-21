@@ -1,7 +1,7 @@
-package thinking.cloud.core.mapper.batch;
+package thinking.cloud.core.mapper.simple;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 
 import thinking.cloud.api.entity.Entity;
 import thinking.cloud.core.mapper.Mapper;
@@ -14,7 +14,7 @@ import thinking.cloud.core.mapper.Mapper;
  * @param <PK> 主键泛型
  * @see Mapper
  */
-public interface BatchInsertMapper<T extends Entity<PK>,PK extends Serializable> extends Mapper<T, PK> {
+public interface InsertCollectionMapper<T extends Entity<PK>,PK extends Serializable> extends Mapper<T, PK> {
 	
 	/**
 	 * 批量添加
@@ -22,5 +22,5 @@ public interface BatchInsertMapper<T extends Entity<PK>,PK extends Serializable>
 	 * @return 影响条数
 	 * @throws Exception SQL异常
 	 */
-	public int batchInsert(List<T> list);
+	public int insertCollection(Collection<T> entitys);
 }

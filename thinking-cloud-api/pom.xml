@@ -18,7 +18,7 @@
     </properties>
 
     <dependencies>
-        <!-- lombock -->
+        <!-- spring -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
@@ -49,6 +49,11 @@
             <groupId>thinking.cloud</groupId>
             <artifactId>thinking-cloud-utils</artifactId>
         </dependency>
+        <!-- connection 
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-httpclient</artifactId>
+        </dependency>-->
     </dependencies>
 
 </project>

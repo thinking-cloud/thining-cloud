@@ -1,4 +1,4 @@
-package thinking.cloud.core.configure;
+package thinking.cloud.core.utils;
 
 import java.util.Map;
 
@@ -8,10 +8,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 /**
- * 
- * <P>
- * </P>
- * @author zhouxinke
+ * 获取Spring上下文的工具类
+ * @author thinking
  * @date 2021年2月20日
  */
 @Service

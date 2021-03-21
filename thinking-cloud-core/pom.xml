@@ -17,14 +17,36 @@
 	</parent>
 
 	<dependencies>
+		<!-- self -->
 		<dependency>
 			<groupId>thinking.cloud</groupId>
 			<artifactId>thinking-cloud-api</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>thinking.cloud</groupId>
+			<artifactId>thinking-cloud-utils</artifactId>
+		</dependency>
+
 		<!-- utils -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
 		</dependency>
 		<!-- spring -->
 		<dependency>
@@ -36,21 +58,10 @@
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>thinking.cloud</groupId>
-			<artifactId>thinking-cloud-utils</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-		</dependency>
+
+
+
+		<!-- <dependency> <groupId>io.github.openfeign</groupId> <artifactId>feign-okhttp</artifactId> 
+			</dependency> -->
 	</dependencies>
 </project>
