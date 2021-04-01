@@ -13,7 +13,7 @@ import thinking.cloud.api.entity.Entity;
 import thinking.cloud.api.entity.LogicalDeletion;
 import thinking.cloud.api.entity.Timestamp;
 @Data
-public abstract class BaseEntity<PK extends Serializable> implements Entity<PK>, Timestamp,AuthorInfo {
+public abstract class BaseEntity<PK extends Serializable,U extends Serializable> implements Entity<PK>, Timestamp,AuthorInfo<U> {
 
 	private static final long serialVersionUID = -5208780711395858867L;
 	
@@ -23,14 +23,14 @@ public abstract class BaseEntity<PK extends Serializable> implements Entity<PK>,
 
 	@IgnoreSwaggerParameter
 	@JsonIgnore
-	private String createUserId ;
+	private U createUserId ;
     @JsonIgnore
     @IgnoreSwaggerParameter
 	private Date createTime;
     
 	@IgnoreSwaggerParameter
 	@JsonIgnore
-	private String lastUpdateUserId;
+	private U lastUpdateUserId;
     @JsonIgnore
     @IgnoreSwaggerParameter
 	private Date lastUpdateTime;

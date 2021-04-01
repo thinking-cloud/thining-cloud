@@ -5,30 +5,30 @@ package thinking.cloud.api.entity;
  * @author zhouxinke
  * @date 2021年2月24日
  */
-public interface AuthorInfo {
+public interface AuthorInfo<U> {
 	
 	/**
 	 * 获取创建用户id
 	 * @return
 	 */
-	public String getCreateUserId() ;
+	public U getCreateUserId() ;
 	/**
 	 * 设置创建用户id
 	 * @param author
 	 */
-	public void setCreateUserId(String createUserId); 
+	public void setCreateUserId(U createUserId); 
 	
 	/**
 	 * 获取最后修改用户id
 	 * @return
 	 */
-	public String getLastUpdateUserId(); 
+	public U getLastUpdateUserId(); 
 	
 	/**
 	 * 设置最后修改用户id
 	 * @param updateUserId
 	 */
-	public void setLastUpdateUserId(String updateUserId);
+	public void setLastUpdateUserId(U updateUserId);
 	
 	
 }
