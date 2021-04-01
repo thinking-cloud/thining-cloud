@@ -5,7 +5,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
  
-// swagger忽略的参数
+/**
+ *  swagger 忽略url 请求参数
+ * @author thinking
+ *
+ */
 @Target({ElementType.FIELD,ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface IgnoreSwaggerParameter {

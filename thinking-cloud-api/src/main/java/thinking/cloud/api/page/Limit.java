@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.annotations.ApiModelProperty;
 import thinking.cloud.api.annotation.IgnoreSwaggerParameter;
+import thinking.cloud.api.constant.ThreadLocalTables;
 
 /**
  * 分页查询条件
@@ -11,18 +12,13 @@ import thinking.cloud.api.annotation.IgnoreSwaggerParameter;
  * @author think
  */
 public interface Limit extends BaseLimit { 
-
-	
-	ThreadLocal<Integer> threadLocal_pageNo =new ThreadLocal<>();
-	ThreadLocal<Integer> threadLocal_pageSize =new ThreadLocal<>();
-	ThreadLocal<Long> threadLocal_totalRecord = new ThreadLocal<>();
 	
 	/**
 	 * 获取当前页码
 	 * @return
 	 */
 	default Integer getPageNo() {
-		Integer pageNo = threadLocal_pageNo.get();
+		Integer pageNo = ThreadLocalTables.THREADLOCAL_PAGENO.get();
 		return pageNo == null || pageNo<=0 ? DEFAULT_PAGE_N0:pageNo;
 	}
 
@@ -31,7 +27,7 @@ public interface Limit extends BaseLimit {
 	 * @param pageNo
 	 */
 	default void setPageNo(int pageNo) {
-		threadLocal_pageNo.set(pageNo<=0 ? DEFAULT_PAGE_N0 : pageNo);
+		ThreadLocalTables.THREADLOCAL_PAGENO.set(pageNo<=0 ? DEFAULT_PAGE_N0 : pageNo);
 	}
 
 	/**
@@ -39,7 +35,7 @@ public interface Limit extends BaseLimit {
 	 * @return
 	 */
 	default Integer getPageSize() {
-		Integer pageSize = threadLocal_pageSize.get();
+		Integer pageSize = ThreadLocalTables.THREADLOCAL_PAGESIZE.get();
 		return pageSize == null || pageSize <= 0 ? DEFAULT_PAGE_SIZE : pageSize;
 	}
 
@@ -48,18 +44,18 @@ public interface Limit extends BaseLimit {
 	 * @param pageSize
 	 */
 	default void setPageSize(int pageSize) {
-		threadLocal_pageSize.set(pageSize <= 0? DEFAULT_PAGE_SIZE : pageSize);
+		ThreadLocalTables.THREADLOCAL_PAGESIZE.set(pageSize <= 0? DEFAULT_PAGE_SIZE : pageSize);
 	}
 	
 	default void setTotalRecord(long total) {
-		threadLocal_totalRecord.set(total);
+		ThreadLocalTables.THREADLOCAL_TOTALRECORD.set(total);
 	}
 	
 	@IgnoreSwaggerParameter
 	@JsonIgnore
 	@ApiModelProperty(value="总条数",example = "0")
 	default long getTotalRecord() {
-		return threadLocal_totalRecord.get();
+		return ThreadLocalTables.THREADLOCAL_TOTALRECORD.get();
 	}
 
 	/**
@@ -71,13 +67,5 @@ public interface Limit extends BaseLimit {
 	@ApiModelProperty(value="起始索引",example = "0")
 	default int getStartIndex(){
 		return (getPageNo() - 1) * getPageSize();
-	}
-
-	default void cleanUp() {
-		threadLocal_pageNo.remove();
-		threadLocal_pageSize.remove();
-		threadLocal_totalRecord.remove();
-	}
-	
-	
+	}	
 }

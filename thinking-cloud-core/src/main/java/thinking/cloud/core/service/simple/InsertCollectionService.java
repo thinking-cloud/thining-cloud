@@ -1,7 +1,6 @@
 package thinking.cloud.core.service.simple;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.LinkedList;
 
 /**
  * 批量insert数据 的Service
@@ -14,5 +13,5 @@ public interface InsertCollectionService<P,R> {
 	/**
 	 * 批量保存
 	 */
-	public Collection<R> insertCollection(Collection<P> list);
+	public LinkedList<R> insertCollection(LinkedList<P> list);
 }

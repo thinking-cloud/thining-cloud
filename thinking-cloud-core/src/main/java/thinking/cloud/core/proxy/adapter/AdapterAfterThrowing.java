@@ -1,8 +1,5 @@
 package thinking.cloud.core.proxy.adapter;
 
-import org.aspectj.lang.JoinPoint;
-
-import thinking.cloud.api.entity.Model;
 import thinking.cloud.core.proxy.ProxyHandler;
 
 /**

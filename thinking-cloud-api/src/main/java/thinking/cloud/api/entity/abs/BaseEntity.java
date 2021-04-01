@@ -1,4 +1,4 @@
-package thinking.cloud.api.entity;
+package thinking.cloud.api.entity.abs;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -7,6 +7,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import thinking.cloud.api.annotation.IgnoreSwaggerParameter;
+import thinking.cloud.api.constant.STATE;
+import thinking.cloud.api.entity.AuthorInfo;
+import thinking.cloud.api.entity.Entity;
+import thinking.cloud.api.entity.LogicalDeletion;
+import thinking.cloud.api.entity.Timestamp;
 @Data
 public abstract class BaseEntity<PK extends Serializable> implements Entity<PK>, Timestamp,AuthorInfo {
 
@@ -29,7 +34,7 @@ public abstract class BaseEntity<PK extends Serializable> implements Entity<PK>,
     @JsonIgnore
     @IgnoreSwaggerParameter
 	private Date lastUpdateTime;
-	
+    
 	public BaseEntity() { }
 	public BaseEntity(PK id) {
 		this.id = id;
@@ -43,6 +48,4 @@ public abstract class BaseEntity<PK extends Serializable> implements Entity<PK>,
 		this.createTime = createTime;
 		this.lastUpdateTime = lastUpdateTime;
 	}
-	
-	
 }

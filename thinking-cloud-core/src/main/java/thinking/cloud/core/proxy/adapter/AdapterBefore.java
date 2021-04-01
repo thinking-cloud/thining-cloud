@@ -1,7 +1,6 @@
 package thinking.cloud.core.proxy.adapter;
 
 
-import thinking.cloud.api.entity.Model;
 import thinking.cloud.core.proxy.ProxyHandler;
 
 /**

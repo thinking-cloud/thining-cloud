@@ -36,8 +36,5 @@ public class HttpMessageConvertConfiguration implements WebMvcConfigurer {
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		converters.clear();
 		converters.add(fastConverter());
-		//converters.add(stringConverter());
-
 	}
-	
 }

@@ -10,9 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 /**
- * 
- * <P>
- * </P>
+ * Request对象 包装类
+ * <p>
+ * 	1. 提供添加请求头
+ * </p>
  * @author zhouxinke
  * @date 2021年2月24日
  */

@@ -1,11 +1,9 @@
 package thinking.cloud.core.proxy;
 
-import thinking.cloud.api.entity.Model;
+import thinking.cloud.core.proxy.model.Model;
 
 /**
- * 
- * <P>
- * </P>
+ * 所有代理的handler的顶级接口
  * @author thinking
  * @date 2021年2月19日
  */

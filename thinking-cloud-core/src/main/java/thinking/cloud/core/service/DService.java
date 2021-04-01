@@ -1,14 +1,16 @@
 package thinking.cloud.core.service;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import thinking.cloud.api.constant.STATE;
 import thinking.cloud.api.entity.Entity;
+import thinking.cloud.api.entity.LogicalDeletion;
 import thinking.cloud.api.entity.Timestamp;
 import thinking.cloud.api.page.Limit;
 import thinking.cloud.api.page.Page;
@@ -55,6 +57,9 @@ public interface DService<T extends Entity<PK>, PK extends Serializable> extends
 	default T insert(T entity){
 		if(getBaseMapper() instanceof InsertMapper<?, ?>){
 			try {
+				if(entity instanceof Timestamp) {
+					((Timestamp)entity).setCreateTime(new Date(System.currentTimeMillis()));
+				}
 				int number = ((InsertMapper<T,PK>)getBaseMapper()).insert(entity);
 				if(number != 0){
 					return entity;
@@ -71,10 +76,10 @@ public interface DService<T extends Entity<PK>, PK extends Serializable> extends
 	/**
 	 * 批量保存
 	 * @param list 保存的实体的集合
-	 * @return 操作是否成功，影响行数若与list集合的长度不一致，则返回false。
+	 * @return 操作是否成功，影响行数若与list集合的长度不一致，则返回null。
 	 */
 	@Override
-	default Collection<T> insertCollection(Collection<T> entitys){
+	default LinkedList<T> insertCollection(LinkedList<T> entitys){
 		if(getBaseMapper() instanceof InsertCollectionMapper<?, ?>){
 			try {
 				int number = ((InsertCollectionMapper<T,PK>)getBaseMapper()).insertCollection(entitys);
@@ -97,15 +102,21 @@ public interface DService<T extends Entity<PK>, PK extends Serializable> extends
 	 */
 	@Override
 	default Integer delete(T entity){
-		if(getBaseMapper() instanceof DeleteMapper<?, ?>){
-			try {
-				return ((DeleteMapper<T,PK>)getBaseMapper()).delete(entity);
-			} catch (Exception e) {
-				throw new RuntimeException(e);
+		try {
+			if(entity instanceof LogicalDeletion) {
+				((LogicalDeletion)entity).setDelState(STATE.DELETED.name());
+				return update(entity);
+			}else {
+				if(getBaseMapper() instanceof DeleteMapper<?, ?>){
+					return ((DeleteMapper<T,PK>)getBaseMapper()).delete(entity);
+				}else{
+					throw new RuntimeException("baseMapper not a DeleteMapper implement!");
+				}
 			}
-		}else{
-			throw new RuntimeException("baseMapper not a DeleteMapper implement!");
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
+
 	}
 	
 	/**
@@ -140,16 +151,23 @@ public interface DService<T extends Entity<PK>, PK extends Serializable> extends
 	 */
 	@Override
 	default T selectByPK(PK pk){
-		if(getBaseMapper() instanceof SelectMapper<?, ?>){
 			try {
-				T Entity = ((SelectMapper<T, PK>)getBaseMapper()).select(pk);
-				return Entity;
+				if(getBaseMapper() instanceof SelectMapper<?, ?>){
+					T entity = ((SelectMapper<T, PK>)getBaseMapper()).select(pk);
+					if(entity!=null && entity instanceof LogicalDeletion) {
+						LogicalDeletion ld = (LogicalDeletion)entity;
+						if(ld.getDelState()!=null && ld.getDelState().equals(STATE.DELETED.name())) {
+							return null;
+						}
+					}
+					return entity;
+				}else{
+					throw new RuntimeException("baseMapper not a SelectMapper implement!");
+				}
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
-		}else{
-			throw new RuntimeException("baseMapper not a SelectMapper implement!");
-		}
+		
 	}
 	
 	/**
@@ -159,19 +177,25 @@ public interface DService<T extends Entity<PK>, PK extends Serializable> extends
 	 */
 	@Override
 	default Page<T> queryPage(Limit limit){
-		if(getBaseMapper() instanceof PageMapper<?, ?>){
+		
 			try {
-				List<T> list = ((PageMapper<T, PK>)getBaseMapper()).queryPage(limit);
-				Page<T> page = new Page<>();
-				BeanUtils.copyProperties(limit, page);
-				page.setRecords(list);
-				return page;
+				LogicalDeletion ld = null;
+				if(limit instanceof LogicalDeletion && (ld =(LogicalDeletion)limit).getDelState() == null ) {
+					ld.setDelState(STATE.ACTIVED.name());
+				}
+				if(getBaseMapper() instanceof PageMapper<?, ?>){
+					List<T> list = ((PageMapper<T, PK>)getBaseMapper()).queryPage(limit);
+					Page<T> page = new Page<>();
+					BeanUtils.copyProperties(limit, page);
+					page.setRecords(list);
+					return page;
+				}else{
+					throw new RuntimeException("baseMapper not a PageMapper implement!");
+				}
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
-		}else{
-			throw new RuntimeException("baseMapper not a PageMapper implement!");
-		}
+		
 	}
 	
 	/**

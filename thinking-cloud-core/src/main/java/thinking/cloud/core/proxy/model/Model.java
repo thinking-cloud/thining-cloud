@@ -1,4 +1,4 @@
-package thinking.cloud.api.entity;
+package thinking.cloud.core.proxy.model;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,7 +40,7 @@ public class Model<T> {
 		MODEL.set(m);
 	}
 	
-	public static Model clean() {
+	public static Model clear() {
 		Model m = MODEL.get();
 		MODEL.remove();
 		if(m==null) {
@@ -50,8 +50,7 @@ public class Model<T> {
 		}
 		return m;
 	}
-	
-	
+		
 	private long timestamp;
 	private String xRequestId;
 	private HttpServletRequest request;

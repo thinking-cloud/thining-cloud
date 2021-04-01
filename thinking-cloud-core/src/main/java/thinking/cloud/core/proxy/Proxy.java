@@ -8,9 +8,12 @@ import java.lang.annotation.Target;
 
 import org.springframework.stereotype.Component;
 
+import thinking.cloud.core.service.DService;
+
 /**
  * 标识为thinking代理的注解
- * <p>标识为thinking代理的注解</p> 
+ * 
+ * <p> proxyClass 与 basePackage 必须标识一个 </p> 
  * @author think
  */
 @Target({ElementType.TYPE})
@@ -18,8 +21,10 @@ import org.springframework.stereotype.Component;
 @Documented
 @Component
 public @interface Proxy {
-	
+	// 标识哪些类的子类执行被标记的代理
 	Class[] proxyClass() default Object.class;
+	// 标识类中的哪些方法执行被标记的代理
 	String[] proxyMethod() default "";
+	// 标识哪些包下的代理类执行被标记的代理
 	String[] basePackage() default "";
 }

@@ -3,22 +3,22 @@ package thinking.cloud.api.constant;
 import thinking.cloud.api.exception.CodeNotFoundException;
 
 public enum STATE {
-	FALSE("00"),	// 假
-	TRUE("01"),		// 真
-	ENABLED("02"),	// 已启用
-	DISABLED("03"),	// 已禁用
-	DELETED("04"),	// 已删除
-	ACTIVED("05"),	// 活跃的
-	READ_ONLY("06"),	//只读的
-	WRITE_ONLY("07");	//只写的
+	FALSE(0),	// 假
+	TRUE(1),		// 真
+	ENABLED(2),	// 已启用
+	DISABLED(3),	// 已禁用
+	DELETED(4),	// 已删除
+	ACTIVED(5),	// 活跃的
+	READ_ONLY(6),	//只读的
+	WRITE_ONLY(7);	//只写的
 
 
-	private String code;
-	private STATE(String code) {
+	private int code;
+	private STATE(int code) {
 		this.code = code;
 	}
 
-	public String code() {
+	public int code() {
 		return this.code;
 	}
 
@@ -27,26 +27,26 @@ public enum STATE {
 	 * @param code
 	 * @return
 	 */
-	public static STATE codeOf(String code) {
+	public static STATE codeOf(Integer code) {
 		if(code == null) {
 			throw new NullPointerException("code为null");
 		}
 		switch (code) {
-			case "00":
+			case 0:
 				return STATE.FALSE;
-			case "01":
+			case 1:
 				return STATE.TRUE;
-			case "02":
+			case 2:
 				return STATE.ENABLED;
-			case "03":
+			case 3:
 				return STATE.DISABLED;
-			case "04":
+			case 4:
 				return STATE.DELETED;
-			case "05":
+			case 5:
 				return STATE.ACTIVED;
-			case "06":
+			case 6:
 				return STATE.READ_ONLY;
-			case "07":
+			case 7:
 				return STATE.WRITE_ONLY;
 			default:
 				throw new CodeNotFoundException(code + " 不是STATE的实例");

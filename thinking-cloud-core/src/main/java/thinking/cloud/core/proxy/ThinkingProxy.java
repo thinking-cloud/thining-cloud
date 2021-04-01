@@ -6,7 +6,7 @@ import java.util.List;
 import org.aspectj.lang.JoinPoint;
 
 import lombok.extern.slf4j.Slf4j;
-import thinking.cloud.api.entity.Model;
+import thinking.cloud.core.proxy.model.Model;
 import thinking.cloud.utils.reflect.ReflectUtils;
 
 
@@ -34,9 +34,16 @@ public abstract class ThinkingProxy {
 			boolean flag = false;
 			Proxy proxy = (Proxy) annotation;
 			
+			// 包与类必须配置一个
+			String[] basePackage = proxy.basePackage();
+			Class[] proxyClassArray = proxy.proxyClass();
+			
+			if(basePackage.length==1 && "".equals(basePackage[0]) && proxyClassArray.length==1 && Object.class == proxyClassArray[0]) {
+				return false;
+			}
+			
 			//验证包
 			String fullName = point.getSignature().toString();
-			String[] basePackage = proxy.basePackage();
 			for (String packageName : basePackage) {
 				if (packageName.equals("") || fullName.indexOf(packageName)>=0) {
 					flag = true;
@@ -44,30 +51,29 @@ public abstract class ThinkingProxy {
 				}
 			}
 			
-			
 			// 验证类
-			f:if(flag) {
-				Class[] proxyClassArray = proxy.proxyClass();
+			if(flag) {
 				for (Class proxyClass : proxyClassArray) {
+					flag = false;
 					if (proxyClass.isAssignableFrom(point.getTarget().getClass())) {
 						flag = true;
-						break f;
+						break;
 					}
 				}
-				flag = false;
+				
 			}
 			
 			// 验证方法
-			f:if(flag) {
+			if(flag) {
 				String[] proxyMethodNameArrays = proxy.proxyMethod();
 				String methodName = point.getSignature().getName();
 				for (String proxyMethodName : proxyMethodNameArrays) {
+					flag = false;
 					if (proxyMethodName.equals("") || proxyMethodName.equals(methodName)) {
 						flag = true;
-						break f;
+						break;
 					}
 				}
-				flag = false;
 			}
 			if(flag) {
 				return proxyHandler.isHandler(Model.getModel());

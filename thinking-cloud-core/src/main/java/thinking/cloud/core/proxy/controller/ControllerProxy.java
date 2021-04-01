@@ -2,9 +2,6 @@ package thinking.cloud.core.proxy.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -15,8 +12,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import thinking.cloud.api.entity.Model;
-import thinking.cloud.core.proxy.ProxyHandler;
 import thinking.cloud.core.proxy.ThinkingProxy;
 
 /**

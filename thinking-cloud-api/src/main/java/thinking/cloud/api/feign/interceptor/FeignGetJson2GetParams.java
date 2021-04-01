@@ -1,4 +1,4 @@
-package thinking.cloud.api.utils;
+package thinking.cloud.api.feign.interceptor;
 
 import java.util.Collection;
 import java.util.Map;
@@ -21,6 +21,12 @@ import feign.Util;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 
+ * feign请求时 get json转为get 请求参数
+ * @author thinking
+ *
+ */
 @Configuration
 @AllArgsConstructor
 @Slf4j
