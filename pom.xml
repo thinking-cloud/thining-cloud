@@ -24,6 +24,7 @@
 		<fast.json.version>1.2.75</fast.json.version>
 		<okhttp3.version>3.8.1</okhttp3.version>
 		<feign.okhttp>11.0</feign.okhttp>
+		<dom4j.version>1.6.1</dom4j.version>
 	</properties>
 
 	<!-- import jar -->
@@ -93,6 +94,22 @@
 			    <artifactId>fastjson</artifactId>
 				<version>${fast.json.version}</version>
 			</dependency>
+			<dependency>
+			    <groupId>dom4j</groupId>
+			    <artifactId>dom4j</artifactId>
+			    <version>${dom4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.squareup.okhttp3</groupId>
+				<artifactId>okhttp</artifactId>
+				<version>${okhttp3.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.openfeign</groupId>
+				<artifactId>feign-okhttp</artifactId>
+				<version>${feign.okhttp}</version>
+			</dependency>
+
 			<!-- database jar -->
 			<dependency>
 				<groupId>org.mybatis</groupId>
@@ -108,16 +125,6 @@
 				<groupId>org.mariadb.jdbc</groupId>
 				<artifactId>mariadb-java-client</artifactId>
 				<version>${jdbc.mariadb.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.squareup.okhttp3</groupId>
-				<artifactId>okhttp</artifactId>
-				<version>${okhttp3.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.github.openfeign</groupId>
-				<artifactId>feign-okhttp</artifactId>
-				<version>${feign.okhttp}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

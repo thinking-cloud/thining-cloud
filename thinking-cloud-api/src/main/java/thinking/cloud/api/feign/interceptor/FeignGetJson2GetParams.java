@@ -41,7 +41,7 @@ public class FeignGetJson2GetParams implements RequestInterceptor {
 			try {
 				template.getClass().getMethod("requestBody");
 				Body requestBody = template.requestBody();
-				if(requestBody!=null && requestBody.asBytes().length>0) {
+				if(requestBody!=null && requestBody.asBytes()!=null &&requestBody.asBytes().length>0) {
 					jsonStr = template.requestBody().asString();
 					template.body(Request.Body.empty());
 				}

@@ -1,6 +1,7 @@
 package thinking.cloud.core.proxy.controller;
 
 import java.util.List;
+import java.util.TreeSet;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -11,6 +12,7 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.InitBinder;
 
 import thinking.cloud.core.proxy.ThinkingProxy;
 
@@ -33,10 +35,11 @@ public class ControllerProxy extends ThinkingProxy{
 	private List<ControllerAfterReturning> afterRuturningList;
 	@Autowired(required = false)
 	private List<ControllerAfterThrowing> afterThrowList;
+	
 
 	@Pointcut("within(*..controller..*)")
 	private void  proxy(){
-		
+
 	}
 	
 	@Before("proxy()")

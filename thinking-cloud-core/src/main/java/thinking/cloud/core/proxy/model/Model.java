@@ -1,5 +1,8 @@
 package thinking.cloud.core.proxy.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @Builder
 @Slf4j
-public class Model<T> {	
+public class Model {	
 	private static ThreadLocal<Model> MODEL = new ThreadLocal<>();
 	
 	public static Model getModel() {
@@ -58,9 +61,22 @@ public class Model<T> {
 	private JoinPoint point;
 	private Object returnObj;
 	private Throwable throwable;
-	private T cache;
+	private Map<String,Object> cache;
 	
+	public void addCache(String key, Object value) {
+		if(cache==null) {
+			cache = new HashMap<String, Object>();
+		}
+		cache.put(key, value);
+	}
 	
+	public Object readCache(String key) {
+		if(cache==null) {
+			cache = new HashMap<String, Object>();
+		}
+		return cache.get(key);
+	}
+		
 	public String getMethodName() {
 		return point.getSignature().getName();
 	}

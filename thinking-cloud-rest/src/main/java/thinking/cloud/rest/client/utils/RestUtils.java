@@ -3,6 +3,7 @@ package thinking.cloud.rest.client.utils;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -31,8 +32,16 @@ import thinking.cloud.rest.client.exception.AuthorizationIsNullException;
 @Slf4j
 public class RestUtils {
 	@Autowired
+	@Lazy
 	private RestTemplate restTemplate;
 	
+	/**
+	 * 返回加载的 restTemplate
+	 * @return
+	 */
+	public RestTemplate restTemplate() {
+		return restTemplate;
+	}
 	
 	/**
 	 * 打印异常日志信息

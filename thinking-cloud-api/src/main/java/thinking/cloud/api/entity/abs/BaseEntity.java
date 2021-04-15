@@ -12,6 +12,14 @@ import thinking.cloud.api.entity.AuthorInfo;
 import thinking.cloud.api.entity.Entity;
 import thinking.cloud.api.entity.LogicalDeletion;
 import thinking.cloud.api.entity.Timestamp;
+
+/**
+ * 基本的Entity
+ * @author zhouxinke
+ *
+ * @param <PK> 唯一标识泛型
+ * @param <U> 操作用户的ID泛型
+ */
 @Data
 public abstract class BaseEntity<PK extends Serializable,U extends Serializable> implements Entity<PK>, Timestamp,AuthorInfo<U> {
 

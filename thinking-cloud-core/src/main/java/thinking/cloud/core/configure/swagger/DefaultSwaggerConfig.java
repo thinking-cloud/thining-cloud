@@ -85,6 +85,7 @@ public class DefaultSwaggerConfig {
 				}
 				parameterBuild.modelRef(new ModelRef("string")).parameterType("header").required(false).build();
 				headerList.add(parameterBuild.build());
+				index++;
 			}
 		}
 		

@@ -2,6 +2,7 @@ package thinking.cloud.core.proxy;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
+import java.util.TreeSet;
 
 import org.aspectj.lang.JoinPoint;
 
@@ -84,33 +85,39 @@ public abstract class ThinkingProxy {
 	}
 
 	protected <T extends ProxyHandler> void before(JoinPoint point, List<T> proxyHandler) {
-		if (Model.getModel()==null||point.getTarget() instanceof ProxyHandler)
-			return; // 如果被代理的是一个代理类 ,则不执行代理方法
+		if (Model.getModel()==null||point.getTarget() instanceof ProxyHandler) return; // 如果被代理的是一个代理类 ,则不执行代理方法
 		if (proxyHandler != null && proxyHandler.size() > 0) {
-			for (ProxyHandler ph : proxyHandler) {
+			long start = 0;
+			long end = 0;
+			for (ProxyHandler ph : sort(proxyHandler)) {
 				Model.getModel().setPoint(point);
 				boolean validate = validate(ph, point);
-				log.info("x-request-id:{}  -proxy:{} - method:{} - {}", Model.getModel().getXRequestId(), ph.getClass().getName(), point.getSignature(), validate);
+				log.info("x-request-id:{}  -proxy:{} - method:{} is-run:{}", Model.getModel().getXRequestId(), ph.getClass().getName(), point.getSignature(), validate);
 				if (validate) {
+					start = System.currentTimeMillis();
 					ph.handler(Model.getModel());
-					log.info("x-request-id:{}  -proxy:{} - method:{} - {}", Model.getModel().getXRequestId(), ph.getClass().getName(), point.getSignature(), "end");
+					end = System.currentTimeMillis();
+					log.info("x-request-id:{}  -proxy:{} - method:{} time-consuming:{}ms", Model.getModel().getXRequestId(), ph.getClass().getName(), point.getSignature(),end-start);
 				}
 			}
 		}
 	}
 
 	protected <T extends ProxyHandler> void afterRuturning(JoinPoint point, Object returnVal, List<T> proxyHandler) {
-		if (Model.getModel()==null||point.getTarget() instanceof ProxyHandler)
-			return; // 如果被代理的是一个代理类 ,则不执行代理方法
+		if (Model.getModel()==null||point.getTarget() instanceof ProxyHandler) return; // 如果被代理的是一个代理类 ,则不执行代理方法
 		if (proxyHandler != null && proxyHandler.size() > 0) {
-			for (ProxyHandler ph : proxyHandler) {
+			long start = 0;
+			long end = 0;
+			for (ProxyHandler ph : sort(proxyHandler)) {
 				Model.getModel().setPoint(point);
 				Model.getModel().setReturnObj(returnVal);
 				boolean validate = validate(ph, point);
-				log.info("x-request-id:{}  -proxy:{} - method:{} - {}", Model.getModel().getXRequestId(), ph.getClass().getName(), point.getSignature(), validate);
+				log.info("x-request-id:{}  -proxy:{} - method:{} is-run:{}", Model.getModel().getXRequestId(), ph.getClass().getName(), point.getSignature(), validate);
 				if (validate) {
+					start = System.currentTimeMillis();
 					ph.handler(Model.getModel());
-					log.info("x-request-id:{}  -proxy:{} - method:{} - {}", Model.getModel().getXRequestId(), ph.getClass().getName(), point.getSignature(), "end");
+					end = System.currentTimeMillis();
+					log.info("x-request-id:{}  -proxy:{} - method:{} time-consuming:{}ms", Model.getModel().getXRequestId(), ph.getClass().getName(), point.getSignature(),end-start);
 				}
 			}
 		}
@@ -120,32 +127,53 @@ public abstract class ThinkingProxy {
 		if (Model.getModel()==null||point.getTarget() instanceof ProxyHandler)
 			return; // 如果被代理的是一个代理类 ,则不执行代理方法
 		if (proxyHandler != null && proxyHandler.size() > 0) {
-			for (ProxyHandler ph : proxyHandler) {
+			long start = 0;
+			long end = 0;
+			for (ProxyHandler ph : sort(proxyHandler)) {
 				Model.getModel().setPoint(point);
 				Model.getModel().setThrowable(throwable);
 				boolean validate = validate(ph, point);
-				log.info("x-request-id:{}  -proxy:{} - method:{} - {}", Model.getModel().getXRequestId(), ph.getClass().getName(), point.getSignature(), validate);
+				log.info("x-request-id:{}  -proxy:{} - method:{} is-run:{}", Model.getModel().getXRequestId(), ph.getClass().getName(), point.getSignature(), validate);
 				if (validate) {
+					start = System.currentTimeMillis();
 					ph.handler(Model.getModel());
-					log.info("x-request-id:{}  -proxy:{} - method:{} - {}", Model.getModel().getXRequestId(), ph.getClass().getName(), point.getSignature(), "end");
+					end = System.currentTimeMillis();
+					log.info("x-request-id:{}  -proxy:{} - method:{} time-consuming:{}ms", Model.getModel().getXRequestId(), ph.getClass().getName(), point.getSignature(),end-start);
 				}
 			}
 		}
 	}
 
 	protected <T extends ProxyHandler> void after(JoinPoint point, List<T> proxyHandler) {
-		if (Model.getModel()==null||point.getTarget() instanceof ProxyHandler)
-			return; // 如果被代理的是一个代理类 ,则不执行代理方法
+		if (Model.getModel()==null||point.getTarget() instanceof ProxyHandler) return; // 如果被代理的是一个代理类 ,则不执行代理方法
 		if (proxyHandler != null && proxyHandler.size() > 0) {
-			for (ProxyHandler ph : proxyHandler) {
+			long start = 0;
+			long end = 0;
+			for (ProxyHandler ph : sort(proxyHandler)) {
 				Model.getModel().setPoint(point);
 				boolean validate = validate(ph, point);
-				log.info("x-request-id:{}  -proxy:{} - method:{} - {}", Model.getModel().getXRequestId(), ph.getClass().getName(), point.getSignature(), validate);
+				log.info("x-request-id:{}  -proxy:{} - method:{} is-run:{}", Model.getModel().getXRequestId(), ph.getClass().getName(), point.getSignature(), validate);
 				if (validate) {
+					start = System.currentTimeMillis();
 					ph.handler(Model.getModel());
-					log.info("x-request-id:{}  -proxy:{} - method:{} - {}", Model.getModel().getXRequestId(), ph.getClass().getName(), point.getSignature(), "end");
+					end = System.currentTimeMillis();
+					log.info("x-request-id:{}  -proxy:{} - method:{} time-consuming:{}ms", Model.getModel().getXRequestId(), ph.getClass().getName(), point.getSignature(),end-start);
 				}
 			}
 		}
+	}
+	
+	/**
+	 * 对代理进行排序的
+	 * @param <T>
+	 * @param proxyHandler
+	 * @return
+	 */
+	private  <T extends Comparable<ProxyHandler>>  TreeSet<T> sort(List<T> proxyHandler) {
+		TreeSet<T> treeSet = new TreeSet<>();
+		for (T t : proxyHandler) {
+			treeSet.add(t);
+		}
+		return treeSet;
 	}
 }

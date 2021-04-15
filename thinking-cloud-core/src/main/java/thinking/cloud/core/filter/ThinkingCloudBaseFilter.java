@@ -1,25 +1,31 @@
 package thinking.cloud.core.filter;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Value;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 所有过滤器的顶级抽象类, 封装公共处理
  * @author thinking
  *
  */
+
 @Data
+@Slf4j
 public abstract class ThinkingCloudBaseFilter implements Filter {
 	
 	private static final String ATTRIVBUTE_KEY_EXCLUDED_URL_FLAG= "IS_EXCLUDED_URL";
@@ -75,5 +81,22 @@ public abstract class ThinkingCloudBaseFilter implements Filter {
 		
 		return (Boolean)isExcludedUrl;
 	}
+	
+	@Override
+	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+			throws IOException, ServletException {
+		HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+		HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
+		if (isExcludedUrls(servletRequest)){
+			filterChain.doFilter(httpServletRequest, httpServletResponse);
+		}else {
+			log.info("exec "+filterName());
+			invork(httpServletRequest, httpServletResponse, filterChain);
+		}
+	}
 
+	protected abstract void invork(HttpServletRequest servletRequest, HttpServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException ;
+	
+	
+	protected abstract String filterName() ;
 }

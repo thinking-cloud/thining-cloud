@@ -1,6 +1,7 @@
 package thinking.cloud.core.proxy.service;
 
 import java.util.List;
+import java.util.TreeSet;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -27,6 +28,7 @@ import thinking.cloud.core.proxy.ThinkingProxy;
 @Aspect
 @Component
 public class ServiceProxy extends ThinkingProxy{
+
 	@Autowired(required = false)
 	private List<ServiceBefore> beforeList;
 	@Autowired(required = false)

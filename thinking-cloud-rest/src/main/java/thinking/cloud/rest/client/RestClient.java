@@ -43,8 +43,14 @@ import thinking.cloud.utils.data.GsonUtils;
 public class RestClient {
 	@Autowired
 	private RestUtils restUtils;
-	@Autowired
-	private RestTemplate restTemplate;
+	
+	/**
+	 * 返回加载的restTemplate
+	 * @return
+	 */
+	public RestTemplate restTemplate() {
+		return restUtils.restTemplate();
+	}
 
 	/**
 	 * 发送get请求
@@ -277,7 +283,7 @@ public class RestClient {
 		url = RestUrlPramsUtils.obj2UrlParams(url, fileInfo, true);
 		try {
 			restUtils.loggerRequestInfo(HttpMethod.GET, url);
-			File file = restTemplate.execute(url, HttpMethod.GET,request-> {
+			File file = restTemplate().execute(url, HttpMethod.GET,request-> {
 				for (Entry<String, List<String>> header : headers.entrySet()) {
 					request.getHeaders().addAll(header.getKey(), header.getValue());
 				}			
