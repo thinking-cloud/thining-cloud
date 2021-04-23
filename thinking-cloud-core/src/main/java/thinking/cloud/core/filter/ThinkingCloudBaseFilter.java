@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -26,12 +27,12 @@ import lombok.extern.slf4j.Slf4j;
 
 @Data
 @Slf4j
+@ConfigurationProperties(prefix = "thinking.cloud.filter.excluded")
 public abstract class ThinkingCloudBaseFilter implements Filter {
 	
 	private static final String ATTRIVBUTE_KEY_EXCLUDED_URL_FLAG= "IS_EXCLUDED_URL";
 	
-	@Value("${thinking.cloud.filter.excluded.url:''}")
-	private String[] excludedUrls;
+	private List<String> urls;
 	
 	private String[] getExcludedUrls() {
 		List<String> urls = new ArrayList<>();
@@ -39,8 +40,8 @@ public abstract class ThinkingCloudBaseFilter implements Filter {
 		urls.add("*/springfox-swagger-ui*");
 		urls.add("*/swagger*");
 		urls.add("*/v2/api-docs*");
-		if(excludedUrls!=null || excludedUrls.length>1  || !excludedUrls[0].equals("")) {
-			Collections.addAll(urls, excludedUrls);
+		if(getUrls()!=null || getUrls().size() > 1  || !getUrls().get(0).equals("")) {
+			urls.addAll(getUrls());
 		}
 		return urls.toArray(new String[urls.size()]);
 	}
@@ -52,13 +53,15 @@ public abstract class ThinkingCloudBaseFilter implements Filter {
 	public boolean isExcludedUrls(ServletRequest servletRequest) {
 		Object isExcludedUrl = servletRequest.getAttribute(ATTRIVBUTE_KEY_EXCLUDED_URL_FLAG);
 		HttpServletRequest httpServletRequest = (HttpServletRequest)servletRequest;
+		String url = httpServletRequest.getRequestURI();
+
 		if(isExcludedUrl==null) {
-			String url = httpServletRequest.getRequestURL().toString();
+			
 			isExcludedUrl = false;
 			for (String u : getExcludedUrls()) {
 				if(u.startsWith("*") && u.endsWith("*")) {	// 前后都有*
 					u = u.substring(1,u.length()-1);
-					if(url.indexOf(u)>0) {
+					if(url.indexOf(u)>=0) {
 						isExcludedUrl = true;
 						break;
 					}
