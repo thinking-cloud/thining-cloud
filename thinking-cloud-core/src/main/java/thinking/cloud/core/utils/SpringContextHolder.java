@@ -55,6 +55,11 @@ public class SpringContextHolder implements ApplicationContextAware{
         return true;
     }
     
+    /**
+     * 删除ioc中的bean
+     * @param beanName bean的ID
+     * @return
+     */
     public static Object removeBean(String beanName) {
         if (defaultListableBeanFactory.containsBean(beanName)) {
         	

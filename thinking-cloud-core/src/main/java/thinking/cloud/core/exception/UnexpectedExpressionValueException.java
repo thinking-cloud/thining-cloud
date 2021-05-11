@@ -1,5 +1,6 @@
 package thinking.cloud.core.exception;
 
+
 /**
  * 意外的条件表达式值。
  * 在处理条件判断逻辑时，Expression出现意外的值，抛出此异常。

@@ -82,6 +82,7 @@ public abstract class ThinkingCloudBaseFilter implements Filter {
 			servletRequest.setAttribute(ATTRIVBUTE_KEY_EXCLUDED_URL_FLAG, isExcludedUrl);
 		}
 		
+		//return true;
 		return (Boolean)isExcludedUrl;
 	}
 	

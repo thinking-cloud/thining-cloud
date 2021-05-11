@@ -2,8 +2,8 @@ package thinking.cloud.api.feign.interceptor;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

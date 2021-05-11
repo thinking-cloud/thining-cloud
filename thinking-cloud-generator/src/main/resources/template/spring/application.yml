@@ -1,0 +1,119 @@
+server:
+  port: #{SERVER_PORT}
+
+swagger:
+  docket:
+    type: api
+  base:
+    package: #{BASE_PACKAGE}
+  api:
+    title: #{PROJECT_NAME}
+    version: #{PROJECT_VERSION}
+    description: #{PROJECT_DESCRIPTION}
+  contact:
+    name: #{PROJECT_AUTHOR}
+    email: #{PROJECT_AUTHOR_EMAIL}
+  headers:
+    name: token,refreshToken,systemId
+    description: 认证信息token,认证信息refreshToken,系统ID
+thinking:
+  cloud:
+    filter:
+      excluded:
+        urls:
+          - /csrf
+spring:
+  datasource:
+    #   数据源基本配置
+    username: #{JDBC_USERNAME}
+    password: #{JDBC_PASSWORD}
+    driver-class-name: com.mysql.jdbc.Driver
+    url: #{JDBC_ADDRESS}/#{DATABASE_NAME}?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    type: com.alibaba.druid.pool.DruidDataSource
+    #   数据源其他配置
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    #   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,log4j
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+  main:
+    allow-bean-definition-overriding: true
+
+# Mybatis
+mybatis:
+  type-aliases-package: #{BASE_PACKAGE}.entity
+  mapper-locations: classpath*:#{BASE_PACKAGE}/mapper/xml/**.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  level:
+    root: info
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%thread] %clr(%-5level) %logger{50}[%L] -%msg%n"
+    file: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%thread] %clr(%-5level) %logger{50}[%L] -%msg%n"
+  config: classpath:logback.xml
+
+#请求和响应GZIP压缩支持
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+  compression:
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+    response:
+      enabled: true
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  security:
+    enabled: false
+
+ribbon:
+  ReadTimeout: 120000
+  ConnectTimeout: 120000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 0
+  OkToRetryOnAllOperations: false
+  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 1000
+      maxQueueSize: 1000
+      queueSizeRejectionThreshold: 500
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000

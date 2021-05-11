@@ -12,7 +12,7 @@ swagger:
     description: '简介'
   contact:
     name: zhouxinke
-    email: zhouxinke@beyondcent.com
+    email: thinking-cloud-2020@outlook.com
   headers:
     name: token
     description: '认证信息,与name要一一对应'

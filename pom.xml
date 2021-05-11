@@ -11,26 +11,46 @@
 
 	<!-- properties -->
 	<properties>
+		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<thinking.cloud.version>1.0.0-SNAPSHOT</thinking.cloud.version>
 		<spring.boot.version>2.1.15.RELEASE</spring.boot.version>
 		<spring.cloud.version>Greenwich.SR6</spring.cloud.version>
-		<swagger.version>2.9.2</swagger.version>
-		<junit.version>4.13.1</junit.version>
-		<gson.version>2.8.6</gson.version>
 		<mybatis.version>3.5.6</mybatis.version>
 		<mybatis.spring.boot.starter>1.3.2</mybatis.spring.boot.starter>
 		<jdbc.mariadb.version>2.3.0</jdbc.mariadb.version>
+		<alibaba.druid.version>1.2.3</alibaba.druid.version>
+		<alibaba.druid.spring.version>1.1.10</alibaba.druid.spring.version>
+		<lombok.version>1.18.4</lombok.version>
+		<junit.version>4.13.1</junit.version>
+		<swagger.version>2.9.2</swagger.version>
 		<fast.json.version>1.2.75</fast.json.version>
+		<gson.version>2.8.6</gson.version>
 		<okhttp3.version>3.8.1</okhttp3.version>
 		<feign.okhttp>11.0</feign.okhttp>
-		<dom4j.version>1.6.1</dom4j.version>
+		<dom4j.version>2.1.3</dom4j.version>
 	</properties>
 
 	<!-- import jar -->
 	<dependencyManagement>
 		<dependencies>
 			<!-- thinking-cloud jar -->
+			<dependency>
+				<groupId>thinking.cloud</groupId>
+				<artifactId>thinking-cloud-beans</artifactId>
+				<version>${thinking.cloud.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>thinking.cloud</groupId>
+				<artifactId>thinking-cloud-services</artifactId>
+				<version>${thinking.cloud.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>thinking.cloud</groupId>
+				<artifactId>thinking-cloud-proxy</artifactId>
+				<version>${thinking.cloud.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>thinking.cloud</groupId>
 				<artifactId>thinking-cloud-core</artifactId>
@@ -66,6 +86,16 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<dependency>
+				<groupId>thinking.cloud</groupId>
+				<artifactId>thinking-cloud-web</artifactId>
+				<version>${thinking.cloud.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid-spring-boot-starter</artifactId>
+				<version>${alibaba.druid.spring.version}</version>
+			</dependency>
 			<!-- swagger jar -->
 			<dependency>
 				<groupId>io.springfox</groupId>
@@ -76,38 +106,6 @@
 				<groupId>io.springfox</groupId>
 				<artifactId>springfox-swagger-ui</artifactId>
 				<version>${swagger.version}</version>
-			</dependency>
-			<!-- utils jar -->
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>${junit.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.google.code.gson</groupId>
-				<artifactId>gson</artifactId>
-				<version>${gson.version}</version>
-			</dependency>
-			<dependency>
-			    <groupId>com.alibaba</groupId>
-			    <artifactId>fastjson</artifactId>
-				<version>${fast.json.version}</version>
-			</dependency>
-			<dependency>
-			    <groupId>dom4j</groupId>
-			    <artifactId>dom4j</artifactId>
-			    <version>${dom4j.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.squareup.okhttp3</groupId>
-				<artifactId>okhttp</artifactId>
-				<version>${okhttp3.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.github.openfeign</groupId>
-				<artifactId>feign-okhttp</artifactId>
-				<version>${feign.okhttp}</version>
 			</dependency>
 
 			<!-- database jar -->
@@ -126,6 +124,50 @@
 				<artifactId>mariadb-java-client</artifactId>
 				<version>${jdbc.mariadb.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>${alibaba.druid.version}</version>
+			</dependency>
+			<!-- utils jar -->
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+				<optional>true</optional>
+			</dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>${gson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fast.json.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.dom4j</groupId>
+				<artifactId>dom4j</artifactId>
+				<version>${dom4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.squareup.okhttp3</groupId>
+				<artifactId>okhttp</artifactId>
+				<version>${okhttp3.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.openfeign</groupId>
+				<artifactId>feign-okhttp</artifactId>
+				<version>${feign.okhttp}</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
@@ -149,7 +191,11 @@
 		<module>thinking-cloud-demo</module>
 		<module>thinking-cloud-rest</module>
 		<module>thinking-cloud-api</module>
-		<module>thinking-cloud-generator-code</module>
+		<module>thinking-cloud-generator</module>
+		<module>thinking-cloud-services</module>
+		<module>thinking-cloud-web</module>
+		<module>thinking-cloud-beans</module>
+		<module>thinking-cloud-proxy</module>
 	</modules>
 
 	<build>
