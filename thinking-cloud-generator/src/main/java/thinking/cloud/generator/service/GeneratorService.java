@@ -43,29 +43,35 @@ public class GeneratorService {
 			InitProject initProject = new InitMavenProject();
 			initProject.init();
 			
-
-		    OutputMapperXml gmx = new OutputMapperXml(new File(FilePathUtils.serverPath(),FilePathUtils.MAIN_JAVA_PATH).getAbsolutePath(), tableMatedata);
+			String serverModuleFilePath = new File(FilePathUtils.serverPath(),FilePathUtils.MAIN_JAVA_PATH).getAbsolutePath();
+			String apiModuleFilePath = new File(FilePathUtils.apiPath(),FilePathUtils.MAIN_JAVA_PATH).getAbsolutePath();
+		    OutputMapperXml gmx = new OutputMapperXml(serverModuleFilePath, tableMatedata);
 		    gmx.generatorXml();
-		    OutputJavaFile om = new OutputMapper("d:/test", tableMatedata);
+		    OutputJavaFile om = new OutputMapper(serverModuleFilePath, tableMatedata);
 		    om.outputJavaFile();
-		    OutputJavaFile os = new OutputService("d:/test", tableMatedata);
+		    OutputJavaFile os = new OutputService(serverModuleFilePath, tableMatedata);
 		    os.outputJavaFile();
-		    OutputJavaFile osi = new OutputServiceImpl("d:/test", tableMatedata);
+		    OutputJavaFile osi = new OutputServiceImpl(serverModuleFilePath, tableMatedata);
 		    osi.outputJavaFile();
-		    OutputJavaFile oa = new OutputAdapter("d:/test", tableMatedata);
+		    OutputJavaFile oa = new OutputAdapter(serverModuleFilePath, tableMatedata);
 		    oa.outputJavaFile();
-		    OutputJavaFile oapi = new OutputApi("d:/test", tableMatedata);
-		    oapi.outputJavaFile();
-		    OutputJavaFile oc = new OutputController("d:/test", tableMatedata);
+		    OutputJavaFile oc = new OutputController(serverModuleFilePath, tableMatedata);
 		    oc.outputJavaFile();
-		    OutputJavaFile oe = new OutputEntity("d:/test", tableMatedata);
-		    oe.outputJavaFile();
-		    OutputJavaFile ob = new OutputBo("d:/test", tableMatedata);
-		    ob.outputJavaFile();
-		    OutputJavaFile oav = new OutputApiVO("d:/test", tableMatedata);
-		    oav.outputJavaFile();
-		    OutputJavaFile ov = new OutputVO("d:/test", tableMatedata);
+		    OutputJavaFile ov = new OutputVO(serverModuleFilePath, tableMatedata);
 		    ov.outputJavaFile();
+		    
+		    OutputJavaFile oapi = new OutputApi(apiModuleFilePath, tableMatedata);
+		    oapi.outputJavaFile();
+		    OutputJavaFile oav = new OutputApiVO(apiModuleFilePath, tableMatedata);
+		    oav.outputJavaFile();
+		    
+		    
+		    //OutputJavaFile oe = new OutputEntity("d:/test", tableMatedata);
+//		    oe.outputJavaFile();
+//		    OutputJavaFile ob = new OutputBo("d:/test", tableMatedata);
+//		    ob.outputJavaFile();
+
+
 		}
 	}
 }

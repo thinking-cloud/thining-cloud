@@ -58,4 +58,23 @@ public class FilePathUtils {
 		String projectName =  config.getProperty(PropKey.PROJECT_NAME.propKey());
 		return new File(projectPath(),projectName+"-server");
 	}
+	
+	/**
+	 * 包名转路径
+	 * @param packageName
+	 * @return
+	 */
+	public static String package2FilePath(String packageName) {
+		return packageName.replaceAll("\\.", "/");
+	}
+	
+	/**
+	 * 包名转file文件对象
+	 * @param parantPath
+	 * @param packageName
+	 * @return
+	 */
+	public static File package2FilePath(String parantPath,String packageName) {
+		return new File(parantPath,package2FilePath(packageName));
+	}
 }

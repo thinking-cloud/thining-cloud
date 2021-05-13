@@ -24,9 +24,9 @@ public class OutputBo extends OutputJavaFile{
 	}
 
 	@Override
-	protected void outputPackage(TableClassMapping table, PrintStream ps) {
-		String packageName = PackageNameUtils.boPackage();
-		ps.println("package "+packageName+";");
+	protected String packageName()  {
+		return PackageNameUtils.boPackage();
+		
 	}
 
 	@Override

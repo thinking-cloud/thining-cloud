@@ -19,9 +19,8 @@ public class OutputService extends OutputJavaFile {
 	}
 
 	@Override
-	protected void outputPackage(TableClassMapping table, PrintStream ps) {
-		String packaheName = PackageNameUtils.servicePackage();
-		ps.println("package "+ packaheName +";");
+	protected String packageName()  {
+		return  PackageNameUtils.servicePackage();
 	}
 
 	@Override

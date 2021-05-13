@@ -2,6 +2,8 @@ package thinking.cloud.beans.vo;
 
 import java.io.Serializable;
 
+import org.springframework.beans.BeanUtils;
+
 /**
  * 响应给调用者vo
  * <p>响应给调用者vo</p> 
@@ -17,9 +19,14 @@ public abstract class VO<T> implements Serializable {
 	public <V extends VO<T>> V convert(T source) {
 		if(source != null) { 
 			this.source=source;
+			convert();
 			return (V)this;
 		}else {
 			return null;
 		}
-	}	
+	}
+	
+	protected void convert() {
+		BeanUtils.copyProperties(source, this);
+	}
 }

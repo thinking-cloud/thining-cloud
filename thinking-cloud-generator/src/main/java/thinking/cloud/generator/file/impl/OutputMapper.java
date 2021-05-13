@@ -21,9 +21,9 @@ public class OutputMapper extends OutputJavaFile {
 	}
 
 	@Override
-	protected void outputPackage(TableClassMapping table, PrintStream ps) {
-		String packaheName = PackageNameUtils.mapperPackage();
-		ps.println("package " + packaheName + ";");
+	protected String packageName()  {
+		return  PackageNameUtils.mapperPackage();
+		
 	}
 
 	@Override

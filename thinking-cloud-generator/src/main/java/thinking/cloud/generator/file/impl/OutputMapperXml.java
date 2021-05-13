@@ -1,6 +1,7 @@
                             package thinking.cloud.generator.file.impl;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import thinking.cloud.generator.bean.ColumnFieldMapping;
 import thinking.cloud.generator.bean.TableClassMapping;
 import thinking.cloud.generator.contant.MapperId;
 import thinking.cloud.generator.exception.GeneratorException;
+import thinking.cloud.generator.utils.FilePathUtils;
 import thinking.cloud.generator.utils.PackageNameUtils;
 
 /**
@@ -26,25 +28,35 @@ import thinking.cloud.generator.utils.PackageNameUtils;
  * @author zhouxinke
  * @date 2021年4月8日
  */
-@AllArgsConstructor
 public class OutputMapperXml {
+
+	public OutputMapperXml(String outputFilePath, List<TableClassMapping> tableClassMapping) {
+		File mapperXmlDir = FilePathUtils.package2FilePath(outputFilePath, PackageNameUtils.mapperXmlPackage());
+		boolean mkdirs = mapperXmlDir.mkdirs();
+		System.out.println("创建目录："+mapperXmlDir.getAbsolutePath()+" "+(mkdirs?"成功":"失败") );
+		
+		this.outputFilePath = mapperXmlDir.getAbsolutePath();
+		this.tableClassMapping = tableClassMapping;
+	}
 
 	public static final String NEW_LINE = "\r";
 	public static final String INDENT = "\t";
 
 	private String outputFilePath;
 	private List<TableClassMapping> tableClassMapping;
+	
+	
 
 	public void generatorXml() {
+		
 		SAXReader mapperXml = new SAXReader();
-
+		
 		try {
 			for (TableClassMapping table : tableClassMapping) {
 				// mapper rootElement
-				String fullMapperName = PackageNameUtils.mapperPackage() + "."
-						+ table.getMapperName();
-				System.out.println("正在写出:" + fullMapperName + ".xml");
-				Document document = createMapper(mapperXml, fullMapperName);
+				File mapperXmlFile = new File(outputFilePath,table.getMapperName()+".xml");
+				System.out.println("正在写出:" + mapperXmlFile.getAbsolutePath());
+				Document document = createMapper(mapperXml, mapperXmlFile.getAbsolutePath());
 				// 添加明明空间
 				docType(document);
 
@@ -79,7 +91,7 @@ public class OutputMapperXml {
 				mapper.addText(NEW_LINE);
 				addQueryPage(mapper, table);
 				// 保存
-				save(document, outputFilePath + "/" + table.getMapperName() + ".xml");
+				save(document, mapperXmlFile.getAbsolutePath());
 
 			}
 

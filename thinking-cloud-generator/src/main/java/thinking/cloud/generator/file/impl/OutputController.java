@@ -25,9 +25,9 @@ public class OutputController extends OutputJavaFile {
 	}
 
 	@Override
-	protected void outputPackage(TableClassMapping table, PrintStream ps) {
-		String packageName = PackageNameUtils.controllerPackage();
-		ps.println("package "+packageName+";");
+	protected String packageName()  {
+		return PackageNameUtils.controllerPackage();
+		
 		
 	}
 

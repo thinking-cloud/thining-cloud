@@ -25,9 +25,9 @@ public class OutputApiVO extends OutputJavaFile {
 	}
 
 	@Override
-	protected void outputPackage(TableClassMapping table, PrintStream ps) {
-		String packageName = PackageNameUtils.apiVoPackage();
-		ps.println("package "+packageName+";");
+	protected String packageName()  {
+		return PackageNameUtils.apiVoPackage();
+
 	}
 
 	@Override

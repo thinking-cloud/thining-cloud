@@ -27,9 +27,8 @@ public class OutputApi extends OutputJavaFile{
 	}
 
 	@Override
-	protected void outputPackage(TableClassMapping table, PrintStream ps) {
-		String packageName = PackageNameUtils.apiPackage();
-		ps.println("import "+packageName+";");
+	protected String packageName() {
+		return PackageNameUtils.apiPackage();
 	}
 
 	@Override

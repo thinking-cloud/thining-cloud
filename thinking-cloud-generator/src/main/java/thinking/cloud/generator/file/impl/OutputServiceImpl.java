@@ -24,9 +24,8 @@ public class OutputServiceImpl extends OutputJavaFile {
 	}
 
 	@Override
-	protected void outputPackage(TableClassMapping table, PrintStream ps) {
-		String packageName = PackageNameUtils.serviceImplPackage();
-		ps.println("import " + packageName + ";");
+	protected String packageName()  {
+		return PackageNameUtils.serviceImplPackage();
 	}
 
 	@Override

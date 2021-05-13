@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import thinking.cloud.generator.bean.ColumnFieldMapping;
 import thinking.cloud.generator.bean.TableClassMapping;
 import thinking.cloud.generator.exception.GeneratorException;
+import thinking.cloud.generator.utils.FilePathUtils;
+import thinking.cloud.generator.utils.PackageNameUtils;
 import thinking.cloud.utils.date.DateFormatUtils;
 
 /**
@@ -27,7 +29,11 @@ public abstract class OutputJavaFile {
     private List<TableClassMapping> tableClassMapping;
     
 	public OutputJavaFile(String outputFilePath, List<TableClassMapping> tableClassMapping) {
-		this.outputFilePath = outputFilePath;
+		File javaFilDir = FilePathUtils.package2FilePath(outputFilePath, packageName());
+		boolean mkdirs = javaFilDir.mkdirs();
+		System.out.println("创建目录："+javaFilDir.getAbsolutePath()+" "+(mkdirs?"成功":"失败") );
+		
+		this.outputFilePath = javaFilDir.getAbsolutePath();
 		this.tableClassMapping = tableClassMapping;
 	}
     
@@ -40,7 +46,7 @@ public abstract class OutputJavaFile {
 	    System.out.print("正在写出:"+path);
 	    try (PrintStream ps = new PrintStream(new File(path))) {
 		System.out.println();
-		outputPackage(table, ps);
+    	ps.println("import "+packageName()+";");
 		outputImport(table, ps);
 		outputClassComment(table, ps);
 		outputAnnotation(table, ps);
@@ -63,7 +69,7 @@ public abstract class OutputJavaFile {
      * @param table
      * @param ps
      */
-    protected abstract void outputPackage(TableClassMapping table, PrintStream ps);
+    protected abstract String packageName();
 
     /**
      * 输出引入的包

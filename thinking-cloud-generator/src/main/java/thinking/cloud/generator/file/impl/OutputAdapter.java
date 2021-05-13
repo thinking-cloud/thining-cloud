@@ -25,9 +25,9 @@ public class OutputAdapter extends OutputJavaFile{
     }
 
     @Override
-    protected void outputPackage(TableClassMapping table, PrintStream ps) {
-    	String packageName = PackageNameUtils.adapterPackage();
-    	ps.println(packageName);
+    protected String packageName() {
+    	return PackageNameUtils.adapterPackage();
+
     }
 
     @Override
