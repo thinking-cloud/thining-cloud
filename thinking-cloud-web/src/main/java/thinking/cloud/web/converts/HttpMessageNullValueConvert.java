@@ -7,6 +7,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.springframework.core.io.Resource;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -27,6 +29,7 @@ public class HttpMessageNullValueConvert extends JsonSerializer<Object> {
 			JsonProcessingException {
 		try {
 			Object current = jgen.getCurrentValue();
+			if(current instanceof Resource) return;
 			Class clazz = current.getClass();
 			String currentName = jgen.getOutputContext().getCurrentName();
 			Method method = clazz.getMethod(ReflectBeanUtils.fieldName2MethodName("get", currentName));

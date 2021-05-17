@@ -14,6 +14,10 @@
 		<module>#{PROJECT_NAME}-server</module>
 	</modules>
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<thinking.cloud.version>1.0.0-SNAPSHOT</thinking.cloud.version>
 		<#{PROJECT_NAME}.version>#{PROJECT_VERSION}</#{PROJECT_NAME}.version>
 	</properties>
 

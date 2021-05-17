@@ -7,6 +7,6 @@ package com.thinking.cloud.demo;
 public class MainOne {
 
     public static void main(String[] args) {
-
+    	String.valueOf(null);
     }
 }

@@ -2,7 +2,13 @@ package thinking.cloud.beans.page;
 
 import java.io.Serializable;
 
-/**
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import io.swagger.annotations.ApiModelProperty;
+import thinking.cloud.beans.annotation.IgnoreSwaggerParameter;
+import thinking.cloud.beans.cache.ThreadLocalTables;
+
+/** 
  * 分页顶级接口
  * @author zhouxinke
  * @date 2021年2月16日
@@ -15,38 +21,55 @@ public interface Limit extends Serializable {
 	 * 获取当前页码
 	 * @return
 	 */
-	public Integer getPageNo() ;
+	default Integer getPageNo() {
+		Integer pageNo = ThreadLocalTables.THREADLOCAL_PAGENO.get();
+		return pageNo == null || pageNo<=0 ? DEFAULT_PAGE_N0:pageNo;
+	}
 
 	/**
 	 * 设置当前页码
 	 * @param pageNo
 	 */
-	public void setPageNo(int pageNo);
+	default void setPageNo(int pageNo) {
+		ThreadLocalTables.THREADLOCAL_PAGENO.set(pageNo<=0 ? DEFAULT_PAGE_N0 : pageNo);
+	}
 
 	/**
 	 * 获取每页显示的条数
 	 * @return
 	 */
-	
-	public Integer getPageSize() ;
+	default Integer getPageSize() {
+		Integer pageSize = ThreadLocalTables.THREADLOCAL_PAGESIZE.get();
+		return pageSize == null || pageSize <= 0 ? DEFAULT_PAGE_SIZE : pageSize;
+	}
 
 	/**
 	 * 设置每页显示的条数
 	 * @param pageSize
 	 */
-	public void setPageSize(int pageSize);
+	default void setPageSize(int pageSize) {
+		ThreadLocalTables.THREADLOCAL_PAGESIZE.set(pageSize <= 0? DEFAULT_PAGE_SIZE : pageSize);
+	}
 	
-	/**
-	 * 设置总页数 
-	 * - 内部插件使用
-	 * @param total
-	 */
-	public void setTotalRecord(long total) ;
+	default void setTotalRecord(long total) {
+		ThreadLocalTables.THREADLOCAL_TOTALRECORD.set(total);
+	}
 	
+	@IgnoreSwaggerParameter
+	@JsonIgnore
+	@ApiModelProperty(value="总条数",example = "0")
+	default Long getTotalRecord() {
+		return ThreadLocalTables.THREADLOCAL_TOTALRECORD.get();
+	}
+
 	/**
-	 * 获取总页数 
-	 * - 内部插件使用
+	 * 获取数据起始索引
 	 * @return
 	 */
-	public Long getTotalRecord() ;
+	@IgnoreSwaggerParameter
+	@JsonIgnore
+	@ApiModelProperty(value="起始索引",example = "0")
+	default int getStartIndex(){
+		return (getPageNo() - 1) * getPageSize();
+	}	
 }

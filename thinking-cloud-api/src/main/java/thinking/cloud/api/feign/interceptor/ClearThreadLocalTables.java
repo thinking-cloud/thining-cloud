@@ -3,7 +3,7 @@ package thinking.cloud.api.feign.interceptor;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;
-import thinking.cloud.api.constant.ThreadLocalTables;
+import thinking.cloud.beans.cache.ThreadLocalTables;
 
 /**
  * 清理 

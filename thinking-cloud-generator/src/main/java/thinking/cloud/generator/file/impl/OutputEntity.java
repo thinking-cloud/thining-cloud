@@ -46,14 +46,27 @@ public class OutputEntity extends OutputJavaFile {
 
 	@Override
 	protected void outputClassFiled(TableClassMapping table, PrintStream ps) {
-		for (ColumnFieldMapping col : table.getColFieldMappingList()) {
-			ps.println(methodIndent+"private "+col.getFieldType()+" "+col.getFieldName()+";");
+		String ignoreFieldNames="id,createUserId,createTime,lastUpdateUserId,lastUpdateTime,";
+		for (ColumnFieldMapping col : table.getColFieldMappingList()) {	
+			if(ignoreFieldNames.indexOf(col.getFieldName()+",")==-1) {
+				ps.println(methodIndent+"private "+col.getFieldType()+" "+col.getFieldName()+";");
+			}
 		}
+	}
+	
+	
+
+	@Override
+	protected void outputImport(TableClassMapping table, PrintStream ps) {
+		super.outputImport(table, ps);
+		ps.println("import lombok.Data;");
+		ps.println("import lombok.EqualsAndHashCode;");
+		ps.println("import lombok.NoArgsConstructor;");
+		ps.println("import thinking.cloud.beans.entity.abs.BaseEntity;");
 	}
 
 	@Override
 	protected void outputMethod(TableClassMapping table, PrintStream ps) {
 		
 	}
-
 }

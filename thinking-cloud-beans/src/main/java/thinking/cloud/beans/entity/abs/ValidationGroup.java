@@ -1,4 +1,4 @@
-package thinking.cloud.api.bean;
+package thinking.cloud.beans.entity.abs;
 
 /**
  * 业务BO的顶级抽象类

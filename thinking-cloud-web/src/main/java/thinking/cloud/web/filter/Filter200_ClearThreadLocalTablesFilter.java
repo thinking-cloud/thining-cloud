@@ -12,7 +12,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import lombok.extern.slf4j.Slf4j;
-import thinking.cloud.api.constant.ThreadLocalTables;
+import thinking.cloud.beans.cache.ThreadLocalTables;
 import thinking.cloud.core.filter.ThinkingCloudBaseFilter;
 
 @Configuration

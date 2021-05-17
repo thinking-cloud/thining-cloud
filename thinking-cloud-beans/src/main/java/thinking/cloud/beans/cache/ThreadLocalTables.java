@@ -1,4 +1,4 @@
-package thinking.cloud.api.constant;
+package thinking.cloud.beans.cache;
 
 import java.util.Date;
 

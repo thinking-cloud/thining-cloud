@@ -43,8 +43,23 @@ public class GeneratorService {
 			InitProject initProject = new InitMavenProject();
 			initProject.init();
 			
+			String beansModuleFilePath = new File(FilePathUtils.beansPath(),FilePathUtils.MAIN_JAVA_PATH).getAbsolutePath();
 			String serverModuleFilePath = new File(FilePathUtils.serverPath(),FilePathUtils.MAIN_JAVA_PATH).getAbsolutePath();
 			String apiModuleFilePath = new File(FilePathUtils.apiPath(),FilePathUtils.MAIN_JAVA_PATH).getAbsolutePath();
+		    // beans
+			OutputJavaFile oe = new OutputEntity(beansModuleFilePath, tableMatedata);
+		    oe.outputJavaFile();
+		    OutputJavaFile ob = new OutputBo(beansModuleFilePath, tableMatedata);
+		    ob.outputJavaFile();
+		    // vo
+		    OutputJavaFile ov = new OutputVO(serverModuleFilePath, tableMatedata);
+		    ov.outputJavaFile();
+		    OutputJavaFile oav = new OutputApiVO(apiModuleFilePath, tableMatedata);
+		    oav.outputJavaFile();
+		    // api
+		    OutputJavaFile oapi = new OutputApi(apiModuleFilePath, tableMatedata);
+		    oapi.outputJavaFile();
+		    // server
 		    OutputMapperXml gmx = new OutputMapperXml(serverModuleFilePath, tableMatedata);
 		    gmx.generatorXml();
 		    OutputJavaFile om = new OutputMapper(serverModuleFilePath, tableMatedata);
@@ -57,20 +72,10 @@ public class GeneratorService {
 		    oa.outputJavaFile();
 		    OutputJavaFile oc = new OutputController(serverModuleFilePath, tableMatedata);
 		    oc.outputJavaFile();
-		    OutputJavaFile ov = new OutputVO(serverModuleFilePath, tableMatedata);
-		    ov.outputJavaFile();
-		    
-		    OutputJavaFile oapi = new OutputApi(apiModuleFilePath, tableMatedata);
-		    oapi.outputJavaFile();
-		    OutputJavaFile oav = new OutputApiVO(apiModuleFilePath, tableMatedata);
-		    oav.outputJavaFile();
-		    
-		    
-		    //OutputJavaFile oe = new OutputEntity("d:/test", tableMatedata);
-//		    oe.outputJavaFile();
-//		    OutputJavaFile ob = new OutputBo("d:/test", tableMatedata);
-//		    ob.outputJavaFile();
 
+		    
+
+		   
 
 		}
 	}

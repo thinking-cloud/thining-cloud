@@ -1,4 +1,4 @@
-package thinking.cloud.api.annotation;
+package thinking.cloud.beans.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -7,7 +7,7 @@ import thinking.cloud.generator.service.GeneratorService;
  * @author zhouxinke
  * @date 2021年3月8日
  */
-public class ApplicationStart {
+public class GeneratorStart {
 	
 	public static void main(String[] args) {
 		try {

@@ -59,7 +59,7 @@ import springfox.documentation.spring.web.readers.parameter.ExpansionContext;
 import springfox.documentation.spring.web.readers.parameter.ModelAttributeField;
 import springfox.documentation.spring.web.readers.parameter.ModelAttributeParameterExpander;
 import springfox.documentation.spring.web.readers.parameter.ModelAttributeParameterMetadataAccessor;
-import thinking.cloud.api.annotation.IgnoreSwaggerParameter;
+import thinking.cloud.beans.annotation.IgnoreSwaggerParameter;
 import thinking.cloud.utils.reflect.ReflectBeanUtils;
 import thinking.cloud.utils.reflect.ReflectUtils;
 

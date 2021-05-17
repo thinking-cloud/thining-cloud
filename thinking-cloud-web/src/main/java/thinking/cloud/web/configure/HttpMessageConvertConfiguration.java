@@ -1,5 +1,6 @@
 package thinking.cloud.web.configure;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.context.annotation.Configuration;
@@ -18,22 +19,26 @@ import thinking.cloud.web.converts.HttpMessageNullValueConvert;
  */
 @Configuration
 public class HttpMessageConvertConfiguration implements WebMvcConfigurer {
-
-
-	public HttpMessageConverter<?> fastConverter() {
+	
+	public HttpMessageConverter<?> NullValConverter(){
 		MappingJackson2HttpMessageConverter fastConverter = new MappingJackson2HttpMessageConverter();
 		fastConverter.getObjectMapper().getSerializerProvider().setNullValueSerializer(new HttpMessageNullValueConvert());
 		fastConverter.getObjectMapper().disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
 		return fastConverter;
-	}
-	
-	public HttpMessageConverter<?> OtherNUllConverter(){
-		return null;
 	} 
 
 	@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+		//converters.clear();
+		List<HttpMessageConverter<?>> convertersList = new LinkedList<>();
+		for (HttpMessageConverter<?> httpMessageConverter : converters) {
+			if(httpMessageConverter instanceof MappingJackson2HttpMessageConverter) {
+				convertersList.add(NullValConverter());
+				continue;
+			}
+			convertersList.add(httpMessageConverter);
+		}
 		converters.clear();
-		converters.add(fastConverter());
+		converters.addAll(convertersList);
 	}
 }

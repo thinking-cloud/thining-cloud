@@ -46,7 +46,7 @@ public abstract class OutputJavaFile {
 	    System.out.print("正在写出:"+path);
 	    try (PrintStream ps = new PrintStream(new File(path))) {
 		System.out.println();
-    	ps.println("import "+packageName()+";");
+    	ps.println("package "+packageName()+";");
 		outputImport(table, ps);
 		outputClassComment(table, ps);
 		outputAnnotation(table, ps);
