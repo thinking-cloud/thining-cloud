@@ -25,6 +25,7 @@ public class LimitToPageConvert<T, V extends VO<T>> implements Converter<T, V> {
 	protected EntityToVoConvert<T, V> entityToVoConvert;
 
 	public LimitToPageConvert(Class<V> voClass) {
+		
 		this.entityToVoConvert = new EntityToVoConvert<>(voClass);
 	}
 
