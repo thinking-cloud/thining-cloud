@@ -70,8 +70,8 @@ public class LimitToPageConvert<T, V extends VO<T>> implements Converter<T, V> {
 	 * @return page对象
 	 */
 	public Page<V> limitToPage(Limit limit, List<T> list) {
-		list = subList(list, limit.getPageNo(), limit.getPageSize());
-		Page<V> pageVo = limitToPage(limit, list, list.size());
+		List<T> subList = subList(list, limit.getPageNo(), limit.getPageSize());
+		Page<V> pageVo = limitToPage(limit, subList, list.size());
 		return pageVo;
 	}
 

@@ -5,17 +5,17 @@ import java.util.List;
 
 
 /**
- * 
+ * 分页对象
  * @author zhouxinke
  * @date 2021年5月6日
  */
-public class Page<T> implements Limit{
+public class Page<T> {
 
 	private static final long serialVersionUID = -3146313205433588374L;
 	/** 当前页码 */
-	private Integer pageNo=DEFAULT_PAGE_N0;
+	private Integer pageNo=Limit.DEFAULT_PAGE_N0;
 	/** 每页显示的条数 */
-	private Integer pageSize=DEFAULT_PAGE_SIZE;
+	private Integer pageSize=Limit.DEFAULT_PAGE_SIZE;
 	/** 本页记录 */
 	private List<T> records;
 	/** 总记录数 */

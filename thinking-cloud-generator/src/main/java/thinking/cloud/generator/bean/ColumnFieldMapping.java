@@ -35,7 +35,7 @@ public class ColumnFieldMapping {
 			fk = true;
 			String classNamePrefix = config.getProperty(PropKey.CLASS_NAME_PREFIX.propKey());
 			this.fieldName = ReflectBeanUtils.snakeCase2CamelCase("fk_", true, "_", classNamePrefix+"_"+columnName);
-			this.fieldType = classNamePrefix+fieldName.substring(0,1).toUpperCase()+fieldName.substring(1);
+			this.fieldType = fieldName.substring(0,1).toUpperCase()+fieldName.substring(1);
 			this.fullFieldType = PackageNameUtils.entityPackage()+"."+this.fieldType;
 			this.fkMapper =  PackageNameUtils.mapperPackage()+fieldType+"Mapper.select";
 		}else {
