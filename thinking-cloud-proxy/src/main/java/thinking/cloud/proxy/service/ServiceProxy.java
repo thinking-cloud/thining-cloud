@@ -3,9 +3,11 @@ package thinking.cloud.proxy.service;
 import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -29,37 +31,22 @@ import thinking.cloud.proxy.ThinkingProxy;
 public class ServiceProxy extends ThinkingProxy{
 
 	@Autowired(required = false)
-	private List<ServiceBefore> beforeList;
+	private List<ServiceBefore> beforeProxyList;
 	@Autowired(required = false)
-	private List<ServiceAfter> afterList;
+	private List<ServiceAfter> afterProxyList;
 	@Autowired(required = false)
-	private List<ServiceAfterReturning> afterRuturningList;
+	private List<ServiceAfterReturning> ruturnProxyList;
 	@Autowired(required = false)
-	private List<ServiceAfterThrowing> afterThrowList;
+	private List<ServiceAfterThrowing> throwProxyList;
 	
 	@Pointcut("within(*..service..*)")
 	private void  proxy(){
 		
 	}
 	
-	@Before("proxy()")
-	public void before(JoinPoint point) {
-		super.before(point, beforeList);
-	}
-	
-	@AfterReturning(value = "proxy()", returning = "returnVal")
-	public void afterRuturning(JoinPoint point, Object returnVal) {
-		super.afterRuturning(point, returnVal, afterRuturningList);
-	}
-	
-	@AfterThrowing(value="proxy()", throwing = "throwable")
-	public void afterThrow(JoinPoint point,Throwable throwable) {
-		super.afterThrow(point, throwable, afterThrowList);
-	}
-	
-	@After("proxy()")
-	public void after(JoinPoint point) {
-		super.after(point,afterList);
+	@Around("proxy()")
+	public Object around(ProceedingJoinPoint point) {
+		return super.around(point, beforeProxyList, ruturnProxyList, throwProxyList, afterProxyList);
 	}
 
 }

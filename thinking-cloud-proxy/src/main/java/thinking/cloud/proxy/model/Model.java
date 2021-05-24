@@ -62,6 +62,7 @@ public class Model {
 	private HttpServletRequest request;
 	private HttpServletResponse response;
 	private Map<String,Object> cache;
+	private boolean isRun = true; //标识被代理的方法是否执行，默认是执行被代理的方法
 	
 	public void addCache(String key, Object value) {
 		if(cache==null) {
