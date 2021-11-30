@@ -172,19 +172,6 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<distributionManagement>
-		<repository>
-			<id>releases</id>
-			<name>Internal Releases</name>
-			<url>http://58.210.154.140:13011/repository/devops-release/</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshots</id>
-			<name>Internal Snapshots</name>
-			<url>http://58.210.154.140:13011/repository/devops-snapshot/</url>
-		</snapshotRepository>
-	</distributionManagement>
-
 	<!-- modules -->
 	<modules>
 		<module>thinking-cloud-core</module>
@@ -196,7 +183,6 @@
 		<module>thinking-cloud-services</module>
 		<module>thinking-cloud-web</module>
 		<module>thinking-cloud-beans</module>
-		<module>thinking-cloud-proxy</module>
 	</modules>
 
 	<build>

@@ -58,6 +58,8 @@ public class FeignGetJson2GetParams implements RequestInterceptor {
 				}
 			} catch (Exception e) {
 				throw new RuntimeException(e);
+			}finally{
+				System.out.println("111");
 			}
 		
 			// json转url param

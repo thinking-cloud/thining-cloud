@@ -20,12 +20,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>thinking.cloud</groupId>
-			<artifactId>thinking-cloud-core</artifactId>
+			<artifactId>thinking-cloud-services</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>thinking.cloud</groupId>
 			<artifactId>thinking-cloud-api</artifactId>
 		</dependency>
-
 	</dependencies>
 </project>
