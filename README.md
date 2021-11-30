@@ -1,1 +1,1 @@
-thinking-cloud 设计PPT
+thinking-cloud 脚本存储
